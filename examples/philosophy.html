@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>哲学 — 领域档案 · Eatbook（方案B·可交互）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --primary:#5645d4; --primary-pressed:#4534b3;
+    --brand-navy:#0a1530; --link-blue:#0075de; --brand-orange:#dd5b00;
+    --brand-purple-300:#d6b6f6; --brand-purple-800:#391c57;
+    --tint-peach:#ffe8d4; --tint-rose:#fde0ec; --tint-mint:#d9f3e1;
+    --tint-lavender:#e6e0f5; --tint-sky:#dcecfa; --tint-yellow:#fef7d6;
+    --tint-yellow-bold:#f9e79f; --tint-cream:#f8f5e8;
+    --canvas:#ffffff; --surface:#f6f5f4; --surface-soft:#fafaf9;
+    --hairline:#e5e3df; --hairline-soft:#ede9e4; --hairline-strong:#c8c4be;
+    --ink-deep:#000; --ink:#1a1a1a; --charcoal:#37352f; --slate:#5d5b54;
+    --steel:#787671; --stone:#a4a097; --muted:#bbb8b1;
+    --on-dark:#fff; --on-dark-muted:#a4a097;
+    --r-sm:6px; --r-md:8px; --r-lg:12px; --r-xl:16px; --r-full:9999px;
+    --sp-xxs:4px; --sp-xs:8px; --sp-sm:12px; --sp-md:16px; --sp-lg:20px;
+    --sp-xl:24px; --sp-xxl:32px; --sp-xxxl:40px; --sp-section:64px;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:Inter,'PingFang SC','Microsoft YaHei','Hiragino Sans GB',-apple-system,sans-serif;
+    font-size:16px;line-height:1.55;color:var(--ink);background:var(--canvas);-webkit-font-smoothing:antialiased;}
+
+  /* promo banner */
+  .promo-banner{background:var(--surface);border-bottom:1px solid var(--hairline);
+    padding:14px var(--sp-md);text-align:center;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;}
+  .promo-brand{font-size:28px;font-weight:700;letter-spacing:-.5px;color:var(--ink);text-decoration:none;line-height:1;
+    display:inline-flex;align-items:center;gap:8px;transition:color .15s;}
+  .promo-brand:hover{color:var(--primary);}
+  .promo-brand .gh{font-size:13px;color:var(--stone);font-weight:500;}
+  .promo-rest{font-size:14px;font-weight:500;color:var(--steel);}
+
+  .page-container{max-width:1120px;margin:0 auto;padding:0 32px;}
+
+  /* HERO */
+  .hero{background:var(--brand-navy);color:var(--on-dark);padding:84px 32px 64px;text-align:center;position:relative;overflow:hidden;}
+  .hero::before{content:'';position:absolute;inset:0;background-image:
+    radial-gradient(circle 8px at 8% 18%,#5645d4 0,transparent 100%),
+    radial-gradient(circle 6px at 14% 72%,#ff64c8 0,transparent 100%),
+    radial-gradient(circle 10px at 88% 14%,#f9e79f 0,transparent 100%),
+    radial-gradient(circle 7px at 92% 68%,#d9f3e1 0,transparent 100%),
+    radial-gradient(circle 5px at 5% 50%,#dcecfa 0,transparent 100%),
+    radial-gradient(circle 9px at 95% 42%,#fde0ec 0,transparent 100%);pointer-events:none;}
+  .hero::after{content:'';position:absolute;inset:0;background-image:
+    linear-gradient(135deg,rgba(86,69,212,.08) 1px,transparent 1px),
+    linear-gradient(45deg,rgba(86,69,212,.05) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;}
+  .hero__inner{position:relative;z-index:1;max-width:1020px;margin:0 auto;}
+  .hero__eyebrow{display:inline-flex;align-items:center;gap:var(--sp-xs);font-size:11px;font-weight:600;
+    letter-spacing:1px;text-transform:uppercase;color:var(--on-dark-muted);margin-bottom:var(--sp-lg);}
+  .hero__eyebrow-dot{width:6px;height:6px;border-radius:50%;background:#f5d75e;}
+  .hero__title{font-size:clamp(34px,5vw,64px);font-weight:600;line-height:1.06;letter-spacing:-1.5px;margin-bottom:var(--sp-md);}
+  .hero__title em{font-style:normal;color:var(--brand-purple-300);}
+  .hero__goal{display:inline-block;font-size:16px;line-height:1.6;color:#cfd3e0;
+    background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);
+    border-radius:var(--r-full);padding:8px 22px;margin-bottom:var(--sp-md);}
+  .hero__goal b{color:#fff;font-weight:600;}
+  .hero__meta{font-size:14px;color:#aeb4c6;margin-bottom:var(--sp-xl);}
+  .hero__meta b{color:#fff;font-weight:600;}
+
+  /* ROUTE MAP */
+  .routemap{background:var(--canvas);border-radius:var(--r-xl);border:1px solid rgba(255,255,255,.14);
+    box-shadow:rgba(15,15,15,.30) 0 24px 60px -12px;padding:34px 38px 42px;margin:36px auto 0;max-width:1080px;text-align:left;}
+  .routemap__cap{display:flex;align-items:baseline;gap:10px;margin-bottom:26px;}
+  .routemap__cap h2{font-size:17px;font-weight:600;color:var(--ink);}
+  .routemap__cap span{font-size:13px;color:var(--steel);}
+  .rm-track{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;position:relative;}
+  .rm-track::before{content:'';position:absolute;top:9px;left:11%;right:11%;height:2px;
+    background:linear-gradient(90deg,var(--primary) 0,var(--primary) 33%,var(--hairline-strong) 33%);z-index:0;}
+  .rm-stage{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;}
+  .rm-stage-top{display:flex;flex-direction:column;align-items:center;text-decoration:none;
+    padding:4px 10px 6px;border-radius:var(--r-md);transition:background .15s;}
+  .rm-stage-top:hover{background:var(--surface);}
+  .rm-stage-top:hover .rm-stage__big{color:var(--primary);}
+  .rm-node{width:20px;height:20px;border-radius:50%;background:var(--canvas);border:3px solid var(--hairline-strong);margin-bottom:14px;transition:transform .15s;}
+  .rm-stage-top:hover .rm-node{transform:scale(1.15);}
+  .rm-stage--current .rm-node{border-color:var(--primary);background:var(--primary);box-shadow:0 0 0 5px rgba(86,69,212,.16);}
+  .rm-stage__name{font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--stone);margin-bottom:2px;}
+  .rm-stage--current .rm-stage__name{color:var(--primary);}
+  .rm-stage__big{font-size:14px;font-weight:600;color:var(--ink);text-align:center;transition:color .15s;}
+  .rm-stem{width:2px;height:14px;background:var(--hairline);margin:14px 0 10px;}
+  .rm-stage--current .rm-stem{background:var(--primary);}
+  .rm-courses{display:flex;flex-direction:column;gap:9px;width:100%;}
+  .rm-course{background:var(--surface-soft);border:1px solid var(--hairline);border-radius:var(--r-md);padding:10px 11px;}
+  .rm-stage--current .rm-course{background:#f3f1fc;border-color:#d8d2f4;}
+  .rm-course__hd{display:block;font-size:12.5px;font-weight:600;color:var(--charcoal);line-height:1.35;text-decoration:none;border-radius:4px;transition:color .12s;}
+  .rm-course__hd:hover{color:var(--primary);}
+  .rm-course__cn{color:var(--primary);}
+  .rm-stage:not(.rm-stage--current) .rm-course__cn{color:var(--stone);}
+  .rm-books{margin-top:7px;display:flex;flex-direction:column;gap:3px;}
+  a.rm-book{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--steel);text-decoration:none;
+    border-radius:4px;padding:2px 5px;margin-left:-5px;transition:background .12s,color .12s;}
+  a.rm-book:hover{background:#ece8fb;color:var(--primary);}
+  .rmb-dot{width:6px;height:9px;border-radius:1px;background:var(--brand-purple-300);flex-shrink:0;}
+  .rmb-dot.main{background:var(--primary);}
+  .rmb-dot.cont{background:var(--tint-mint);border:1px solid #9fd9b0;}
+  .rmb-dot.alt{background:var(--tint-yellow-bold);}
+  .rmb-dot.ref{background:var(--tint-cream);border:1px solid var(--hairline-strong);}
+  .rmb-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .rmb-tag{font-size:9px;color:var(--stone);flex-shrink:0;}
+
+  /* SECTION FRAME */
+  .section{padding:var(--sp-section) 0;}
+  .section--soft{background:var(--surface-soft);border-top:1px solid var(--hairline);}
+  .section__label{display:inline-flex;align-items:center;gap:var(--sp-xs);font-size:11px;font-weight:600;
+    letter-spacing:1px;text-transform:uppercase;color:var(--stone);margin-bottom:var(--sp-md);}
+  .section__label-line{width:20px;height:2px;background:var(--muted);border-radius:2px;}
+  .section__heading{font-size:clamp(24px,2.6vw,32px);font-weight:600;letter-spacing:-.5px;margin-bottom:var(--sp-xs);}
+  .section__sub{font-size:15px;color:var(--steel);margin-bottom:var(--sp-xl);}
+  .section__sub b{color:var(--primary);font-weight:600;}
+
+  /* role badges + cover */
+  .role-primary{background:var(--tint-lavender);color:var(--brand-purple-800);}
+  .role-secondary{background:var(--tint-sky);color:#1a3c6e;}
+  .role-deep{background:var(--tint-peach);color:#793400;}
+  .role-alt{background:var(--tint-yellow);color:#6b5a00;}
+  .role-cont{background:var(--tint-mint);color:#1a5c30;}
+  .role-ref{background:var(--tint-cream);color:var(--slate);}
+  .cover{position:relative;aspect-ratio:2/3;border-radius:var(--r-md);overflow:hidden;
+    background:linear-gradient(150deg,#3a2a99,#5645d4);box-shadow:0 6px 20px rgba(15,15,15,.16);align-self:start;}
+  .cover img{position:relative;z-index:1;width:100%;height:100%;object-fit:cover;display:block;}
+  .cover__fallback{position:absolute;inset:0;z-index:0;display:flex;align-items:center;justify-content:center;
+    padding:8px;text-align:center;font-size:11px;font-weight:600;color:#fff;line-height:1.3;}
+
+  /* ─── INTERACTIVE TIMELINE ──────────────────────── */
+  .vtwrap{max-width:1080px;margin:0 auto;position:relative;padding:8px 0 24px;}
+  .vt-line{position:absolute;top:0;bottom:0;left:50%;width:3px;transform:translateX(-50%);
+    background:var(--hairline-strong);border-radius:3px;z-index:0;overflow:hidden;}
+  .vt-line-fill{position:absolute;top:0;left:0;width:100%;height:0;
+    background:linear-gradient(180deg,var(--primary),#7b6cf0);border-radius:3px;}
+
+  /* 阶段框 */
+  .vt-phase{position:relative;z-index:1;border:1.5px solid var(--hairline);border-radius:var(--r-xl);
+    padding:46px 0 32px;margin-bottom:30px;transition:border-color .3s,box-shadow .3s;scroll-margin-top:20px;}
+  .vt-phase.is-active{border-color:var(--primary);box-shadow:0 12px 40px rgba(86,69,212,.10);}
+  .vt-phase-hd{position:absolute;top:-16px;left:50%;transform:translateX(-50%);z-index:4;
+    display:inline-flex;align-items:center;gap:8px;background:var(--canvas);
+    border:2px solid var(--hairline-strong);color:var(--charcoal);font-size:13px;font-weight:600;
+    padding:6px 20px;border-radius:var(--r-full);white-space:nowrap;transition:all .3s;}
+  .vt-phase.is-active .vt-phase-hd{background:var(--primary);border-color:var(--primary);color:#fff;box-shadow:0 0 0 5px rgba(86,69,212,.14);}
+  .vt-phase-hd small{font-weight:400;color:var(--steel);}
+  .vt-phase.is-active .vt-phase-hd small{color:rgba(255,255,255,.8);}
+
+  /* 课：主选一侧 + 对面放「角色标签 + 备选」 */
+  .vt-course{position:relative;display:grid;grid-template-columns:1fr 1fr;column-gap:60px;align-items:start;padding:0 28px;}
+  .vt-course + .vt-course{margin-top:26px;}
+  .vt-main{width:100%;max-width:404px;position:relative;}
+  .vt-aside{width:100%;max-width:360px;display:flex;flex-direction:column;}
+  /* 主左 */
+  .vt-course--ml .vt-main{grid-column:1;justify-self:end;}
+  .vt-course--ml .vt-aside{grid-column:2;justify-self:start;align-items:flex-start;}
+  /* 主右 */
+  .vt-course--mr .vt-main{grid-column:2;justify-self:start;order:2;}
+  .vt-course--mr .vt-aside{grid-column:1;justify-self:end;order:1;align-items:flex-end;text-align:right;}
+
+  /* 主选 → 中轴：实线 + 圆点 */
+  .vt-main::before{content:'';position:absolute;top:30px;height:2px;width:30px;background:var(--hairline-strong);z-index:1;}
+  .vt-main::after{content:'';position:absolute;top:24px;width:14px;height:14px;border-radius:50%;
+    background:var(--canvas);border:3px solid var(--hairline-strong);z-index:3;}
+  .vt-course--ml .vt-main::before{right:-30px;}
+  .vt-course--ml .vt-main::after{right:-37px;}
+  .vt-course--mr .vt-main::before{left:-30px;}
+  .vt-course--mr .vt-main::after{left:-37px;}
+  .vt-course.is-current .vt-main::after{border-color:var(--primary);background:var(--primary);box-shadow:0 0 0 5px rgba(86,69,212,.16);}
+  .vt-course.is-current .vt-main::before{background:var(--primary);}
+
+  /* 角色标签：在节点对面，与主卡相对 */
+  .vt-roletag{display:flex;flex-direction:column;gap:5px;margin-top:18px;margin-bottom:8px;}
+  .vt-rt-badge{display:inline-flex;align-self:flex-start;font-size:12px;font-weight:600;padding:4px 13px;border-radius:var(--r-full);}
+  .vt-course--mr .vt-rt-badge{align-self:flex-end;}
+  .vt-rt-note{font-size:11.5px;color:var(--steel);line-height:1.45;max-width:230px;}
+
+  /* 备选 → 中轴：虚线连接线 */
+  .vt-alt-wrap{margin-top:10px;display:flex;flex-direction:column;gap:10px;position:relative;width:100%;}
+  .vt-alt-wrap::before{content:'';position:absolute;top:18px;height:0;border-top:2px dashed var(--hairline-strong);width:30px;z-index:1;}
+  .vt-course--ml .vt-alt-wrap::before{left:-30px;}
+  .vt-course--mr .vt-alt-wrap::before{right:-30px;}
+
+  /* 主卡 */
+  .vt-card{background:var(--canvas);border:1px solid var(--hairline);border-radius:var(--r-lg);
+    padding:14px;display:grid;grid-template-columns:74px 1fr;gap:14px;box-shadow:0 4px 16px rgba(15,15,15,.05);
+    transition:box-shadow .16s,transform .16s,border-color .16s;text-align:left;scroll-margin-top:90px;}
+  .vt-card:hover{box-shadow:0 10px 30px rgba(15,15,15,.10);transform:translateY(-2px);}
+  .vt-course.is-current .vt-card{border-color:#d8d2f4;background:linear-gradient(135deg,#faf9ff,#fff);box-shadow:0 8px 28px rgba(86,69,212,.14);}
+  .vt-zh{font-size:15.5px;font-weight:600;color:var(--ink);line-height:1.3;}
+  .vt-en{font-size:11.5px;color:var(--stone);font-style:italic;margin-top:2px;line-height:1.4;}
+  .vt-press{font-size:12px;color:var(--slate);margin-top:6px;}
+  .vt-press b{color:var(--charcoal);}
+  .vt-intro{font-size:12.5px;color:var(--slate);line-height:1.55;margin-top:8px;padding-top:8px;border-top:1px solid var(--hairline-soft);}
+  .vt-who{font-size:11.5px;color:var(--steel);margin-top:6px;}
+  .vt-who a{color:var(--link-blue);text-decoration:none;}
+
+  /* 备选小卡（更小） */
+  .vt-subcard{background:var(--surface-soft);border:1px solid var(--hairline);border-radius:var(--r-md);
+    padding:9px;display:grid;grid-template-columns:44px 1fr;gap:10px;align-items:start;scroll-margin-top:90px;text-align:left;}
+  .vt-sub-role{display:inline-flex;font-size:9.5px;font-weight:600;padding:2px 6px;border-radius:var(--r-sm);margin-bottom:3px;}
+  .vt-sub-zh{font-size:12px;font-weight:600;color:var(--ink);line-height:1.25;}
+  .vt-sub-en{font-size:9.5px;color:var(--stone);font-style:italic;margin-top:1px;line-height:1.35;}
+  .vt-sub-intro{font-size:10px;color:var(--slate);line-height:1.4;margin-top:4px;}
+  .vt-sub-intro a{color:var(--link-blue);text-decoration:none;}
+
+  /* 锚点命中高亮 */
+  .vt-card:target,.vt-subcard:target{animation:flash 1.4s ease;}
+  @keyframes flash{0%{box-shadow:0 0 0 0 rgba(86,69,212,0);}25%{box-shadow:0 0 0 3px var(--primary),0 12px 32px rgba(86,69,212,.28);}100%{box-shadow:0 4px 16px rgba(15,15,15,.05);}}
+
+  /* progress / rationale / about / footer */
+  .progress-wrap{border:1px solid var(--hairline);border-radius:var(--r-lg);overflow:hidden;margin-top:var(--sp-md);}
+  .progress-row,.progress-head{display:grid;grid-template-columns:2.4fr 1fr 1fr 1fr 1.2fr;align-items:center;}
+  .progress-head{background:var(--surface);padding:11px var(--sp-lg);border-bottom:1px solid var(--hairline);}
+  .progress-head span{font-size:11px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--stone);text-align:center;}
+  .progress-head span:first-child{text-align:left;}
+  .progress-row{padding:11px var(--sp-lg);border-bottom:1px solid var(--hairline-soft);}
+  .progress-row:last-child{border-bottom:none;}
+  .progress-row:nth-child(even){background:var(--surface-soft);}
+  .progress-row .pb{font-size:13.5px;font-weight:500;color:var(--ink);}
+  .progress-row .pc{text-align:center;font-size:15px;color:var(--muted);}
+
+  .rationale-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--sp-md);}
+  .rationale-card{border-radius:var(--r-lg);padding:var(--sp-lg);}
+  .rationale-card:nth-child(1){background:var(--tint-peach);}
+  .rationale-card:nth-child(2){background:var(--tint-mint);}
+  .rationale-card:nth-child(3){background:var(--tint-sky);}
+  .rationale-card:nth-child(4){background:var(--tint-cream);}
+  .rc-cond{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--steel);margin-bottom:6px;}
+  .rc-act{font-size:14px;font-weight:600;color:var(--charcoal);line-height:1.45;}
+
+  .about-grid{display:grid;grid-template-columns:1.25fr 1fr;gap:var(--sp-xl);align-items:stretch;}
+  .about-card{background:var(--canvas);border:1px solid var(--hairline);border-radius:var(--r-lg);padding:var(--sp-xl);display:flex;flex-direction:column;}
+  .about-card h3{font-size:16px;font-weight:600;margin-bottom:var(--sp-sm);}
+  .skill-flow{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:var(--sp-md);}
+  .skill-step{display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--hairline);
+    border-radius:var(--r-full);padding:5px 12px;font-size:12.5px;color:var(--charcoal);}
+  .skill-step code{font-family:inherit;color:var(--primary);font-weight:600;}
+  .skill-arrow{color:var(--muted);align-self:center;font-size:12px;}
+  .find-card{background:var(--brand-navy);color:var(--on-dark);border-radius:var(--r-lg);padding:var(--sp-xl);display:flex;flex-direction:column;}
+  .find-card h3{font-size:16px;font-weight:600;margin-bottom:var(--sp-sm);color:#fff;}
+  .find-card p{font-size:13.5px;color:#c4c8d6;line-height:1.6;margin-bottom:var(--sp-xs);}
+  .find-rows{margin-top:auto;}
+  .find-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid rgba(255,255,255,.1);}
+  .find-row .k{font-size:13px;color:#a4a097;width:64px;flex-shrink:0;}
+  .find-row .v{font-size:14px;font-weight:600;color:#fff;}
+  .find-row .v small{font-weight:400;color:#a4a097;margin-left:6px;}
+
+  .footer{border-top:1px solid var(--hairline);padding:var(--sp-xl) 32px;display:flex;justify-content:space-between;
+    flex-wrap:wrap;gap:var(--sp-md);max-width:1120px;margin:0 auto;}
+  .footer__brand{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:var(--charcoal);}
+  .footer__brand-icon{width:24px;height:24px;background:var(--ink-deep);border-radius:var(--r-sm);display:flex;
+    align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:700;}
+  .footer__note{font-size:13px;color:var(--steel);}
+
+  @media (max-width:900px){
+    .rm-track{grid-template-columns:1fr 1fr;gap:var(--sp-lg);}
+    .rm-track::before{display:none;}
+    .rationale-grid{grid-template-columns:1fr 1fr;}
+    .about-grid{grid-template-columns:1fr;}
+    .vt-course{grid-template-columns:1fr;column-gap:0;}
+    .vt-course--mr .vt-main,.vt-course--mr .vt-aside{order:0;}
+    .vt-main,.vt-aside{grid-column:1!important;justify-self:stretch!important;max-width:none;align-items:flex-start!important;text-align:left!important;}
+    .vt-main::before,.vt-main::after,.vt-alt-wrap::before{display:none;}
+    .vt-line{left:18px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="promo-banner">
+  <a class="promo-brand" href="https://github.com/junjieashan" target="_blank" rel="noopener">Eatbook<span class="gh">↗ GitHub</span></a>
+  <span class="promo-rest">和你一起把一个领域读穿 — AI 辅助深度阅读</span>
+</div>
+
+<!-- ══ 第一屏：HERO + 可点击节点路线图 ══ -->
+<section class="hero">
+  <div class="hero__inner">
+    <div class="hero__eyebrow"><span class="hero__eyebrow-dot"></span>领域档案 · philosophy</div>
+    <h1 class="hero__title"><em>哲学</em> 本科通识学习路线</h1>
+    <div class="hero__goal">目标：<b>亲手读懂西方哲学的元典，自己学会追问与论证</b></div>
+    <div class="hero__meta">2026-06-06 为 <b>junjieashan</b> 创建 · 8 门课 · 4 阶段 · 每课「原典 + 导读」双线</div>
+
+    <div class="routemap">
+      <div class="routemap__cap"><h2>学习路线</h2><span>点阶段圆点 / 课名跳到对应阶段，点书名跳到那本书；紫色为当前位置 · ◆主读=原典 · ◆导读 · ◆备选 · ◆工具</span></div>
+      <div class="rm-track">
+
+        <div class="rm-stage rm-stage--current">
+          <a class="rm-stage-top" href="#phase-1">
+            <div class="rm-node"></div>
+            <div class="rm-stage__name">阶段一 · 当前</div>
+            <div class="rm-stage__big">入门与工具</div>
+          </a>
+          <div class="rm-stem"></div>
+          <div class="rm-courses">
+            <div class="rm-course">
+              <a class="rm-course__hd" href="#phase-1"><span class="rm-course__cn">课1</span> 哲学是什么</a>
+              <div class="rm-books">
+                <a class="rm-book" href="#book-nagel"><span class="rmb-dot main"></span><span class="rmb-name">《你的第一本哲学书》</span><span class="rmb-tag">主读</span></a>
+                <a class="rm-book" href="#book-russellprob"><span class="rmb-dot ref"></span><span class="rmb-name">《哲学问题》罗素</span><span class="rmb-tag">导读</span></a>
+                <a class="rm-book" href="#book-blackburn"><span class="rmb-dot alt"></span><span class="rmb-name">《如何思考》</span><span class="rmb-tag">备选</span></a>
+              </div>
+            </div>
+            <div class="rm-course">
+              <a class="rm-course__hd" href="#phase-1"><span class="rm-course__cn">课2</span> 逻辑与论证</a>
+              <div class="rm-books">
+                <a class="rm-book" href="#book-hurley"><span class="rmb-dot main"></span><span class="rmb-name">《简明逻辑学导论》</span><span class="rmb-tag">主读</span></a>
+                <a class="rm-book" href="#book-forallx"><span class="rmb-dot alt"></span><span class="rmb-name">forall x（免费）</span><span class="rmb-tag">备选</span></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="rm-stage">
+          <a class="rm-stage-top" href="#phase-2">
+            <div class="rm-node"></div>
+            <div class="rm-stage__name">阶段二</div>
+            <div class="rm-stage__big">古代与中世纪</div>
+          </a>
+          <div class="rm-stem"></div>
+          <div class="rm-courses">
+            <div class="rm-course">
+              <a class="rm-course__hd" href="#phase-2"><span class="rm-course__cn">课3</span> 古希腊：柏拉图与亚里士多德</a>
+              <div class="rm-books">
+                <a class="rm-book" href="#book-republic"><span class="rmb-dot main"></span><span class="rmb-name">柏拉图《理想国》</span><span class="rmb-tag">原典</span></a>
+                <a class="rm-book" href="#book-nicomachean"><span class="rmb-dot main"></span><span class="rmb-name">《尼各马可伦理学》</span><span class="rmb-tag">原典</span></a>
+                <a class="rm-book" href="#book-cambgreek"><span class="rmb-dot ref"></span><span class="rmb-name">《剑桥希腊罗马哲学指南》</span><span class="rmb-tag">导读</span></a>
+              </div>
+            </div>
+            <div class="rm-course">
+              <a class="rm-course__hd" href="#phase-2"><span class="rm-course__cn">课4</span> 中世纪：信仰与理性</a>
+              <div class="rm-books">
+                <a class="rm-book" href="#book-aquinas"><span class="rmb-dot main"></span><span class="rmb-name">阿奎那《哲学著作选》</span><span class="rmb-tag">原典</span></a>
+                <a class="rm-book" href="#book-kennymed"><span class="rmb-dot ref"></span><span class="rmb-name">《中世纪哲学》Kenny</span><span class="rmb-tag">导读</span></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="rm-stage">
+          <a class="rm-stage-top" href="#phase-3">
+            <div class="rm-node"></div>
+            <div class="rm-stage__name">阶段三</div>
+            <div class="rm-stage__big">近代</div>
+          </a>
+          <div class="rm-stem"></div>
+          <div class="rm-courses">
+            <div class="rm-course">
+              <a class="rm-course__hd" href="#phase-3"><span class="rm-course__cn">课5</span> 理性论 vs 经验论</a>
+              <div class="rm-books">
+                <a class="rm-book" href="#book-descartes"><span class="rmb-dot main"></span><span class="rmb-name">笛卡尔《第一哲学沉思集》</span><span class="rmb-tag">原典</span></a>
+                <a class="rm-book" href="#book-hume"><span class="rmb-dot main"></span><span class="rmb-name">休谟《人性论》</span><span class="rmb-tag">原典</span></a>
+                <a class="rm-book" href="#book-humeenq"><span class="rmb-dot alt"></span><span class="rmb-name">休谟《人类理解研究》</span><span class="rmb-tag">较短</span></a>
+              </div>
+            </div>
+            <div class="rm-course">
+              <a class="rm-course__hd" href="#phase-3"><span class="rm-course__cn">课6</span> 康德：综合两条线</a>
+              <div class="rm-books">
+                <a class="rm-book" href="#book-kantcpr"><span class="rmb-dot main"></span><span class="rmb-name">康德《纯粹理性批判》</span><span class="rmb-tag">原典</span></a>
+                <a class="rm-book" href="#book-gardner"><span class="rmb-dot ref"></span><span class="rmb-name">Gardner 康德导读</span><span class="rmb-tag">导读</span></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="rm-stage">
+          <a class="rm-stage-top" href="#phase-4">
+            <div class="rm-node"></div>
+            <div class="rm-stage__name">阶段四 · 自选</div>
+            <div class="rm-stage__big">核心分支与现当代</div>
+          </a>
+          <div class="rm-stem"></div>
+          <div class="rm-courses">
+            <div class="rm-course">
+              <a class="rm-course__hd" href="#phase-4"><span class="rm-course__cn">课7</span> 伦理学与政治哲学</a>
+              <div class="rm-books">
+                <a class="rm-book" href="#book-mill"><span class="rmb-dot main"></span><span class="rmb-name">密尔《功利主义》</span><span class="rmb-tag">原典</span></a>
+                <a class="rm-book" href="#book-rawls"><span class="rmb-dot alt"></span><span class="rmb-name">罗尔斯《正义论》</span><span class="rmb-tag">进阶</span></a>
+              </div>
+            </div>
+            <div class="rm-course">
+              <a class="rm-course__hd" href="#phase-4"><span class="rm-course__cn">课8</span> 现当代：分析与欧陆</a>
+              <div class="rm-books">
+                <a class="rm-book" href="#book-wittgenstein"><span class="rmb-dot main"></span><span class="rmb-name">维特根斯坦《哲学研究》</span><span class="rmb-tag">原典</span></a>
+                <a class="rm-book" href="#book-russellhist"><span class="rmb-dot ref"></span><span class="rmb-name">罗素《西方哲学史》</span><span class="rmb-tag">通史</span></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 第二屏：主选一侧 + 角色标签&备选在对面 ══ -->
+<section class="section">
+  <div class="page-container">
+    <div class="section__label"><span class="section__label-line"></span>完整书目路线</div>
+    <h2 class="section__heading">原典打底，导读引路</h2>
+    <p class="section__sub">哲学没有统一教材：每门课都是 <b>一本必读原典 + 一本帮你读懂它的导读</b>，两条线并行。当前从 <b>阶段一</b> 起步。</p>
+
+    <div class="vtwrap">
+      <div class="vt-line"><div class="vt-line-fill" id="lineFill"></div></div>
+
+      <!-- 阶段一 -->
+      <div class="vt-phase is-active" id="phase-1">
+        <div class="vt-phase-hd">阶段一 · 入门与工具 <small>· 当前位置</small></div>
+
+        <div class="vt-course vt-course--ml is-current">
+          <div class="vt-main">
+            <div class="vt-card" id="book-nagel">
+              <div class="cover"><span class="cover__fallback">你的第一本哲学书</span><img src="https://covers.openlibrary.org/b/id/126705-L.jpg" onerror="this.remove()" alt=""></div>
+              <div>
+                <div class="vt-zh">《你的第一本哲学书》</div>
+                <div class="vt-en">What Does It All Mean? · Thomas Nagel · Oxford UP</div>
+                <div class="vt-press"><b>托马斯·内格尔</b> · 牛津大学出版社 · 中译：当代中国出版社</div>
+                <div class="vt-intro">百页讲透知识、自由、意义等九个核心问题，不预设任何背景，先点燃"自己想"的能力。</div>
+                <div class="vt-who">🎓 英美高校常用作哲学导论入门读物</div>
+              </div>
+            </div>
+          </div>
+          <div class="vt-aside">
+            <div class="vt-roletag">
+              <span class="vt-rt-badge role-primary">课1 · 主读入门</span>
+              <span class="vt-rt-note">现在就找这本，拿到即可 /eatbook:ingest 入库开读</span>
+            </div>
+            <div class="vt-alt-wrap">
+              <div class="vt-subcard" id="book-russellprob">
+                <div class="cover"><span class="cover__fallback">哲学问题</span><img src="https://covers.openlibrary.org/b/id/6947403-L.jpg" onerror="this.remove()" alt=""></div>
+                <div>
+                  <span class="vt-sub-role role-secondary">导读 · 经典</span>
+                  <div class="vt-sub-zh">《哲学问题》</div>
+                  <div class="vt-sub-en">The Problems of Philosophy · Bertrand Russell</div>
+                  <div class="vt-sub-intro">罗素 1912 年的经典小书，用认识论串起整个哲学，承上启下接向阶段三。</div>
+                </div>
+              </div>
+              <div class="vt-subcard" id="book-blackburn">
+                <div class="cover"><span class="cover__fallback">如何思考</span><img src="https://covers.openlibrary.org/b/id/116928-L.jpg" onerror="this.remove()" alt=""></div>
+                <div>
+                  <span class="vt-sub-role role-alt">备选 · 更现代</span>
+                  <div class="vt-sub-zh">《思考：哲学导论》</div>
+                  <div class="vt-sub-en">Think: A Compelling Introduction to Philosophy · Simon Blackburn · Oxford UP</div>
+                  <div class="vt-sub-intro">当代分析哲学家写的导论，覆盖面更广，与内格尔二选一。</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="vt-course vt-course--mr">
+          <div class="vt-main">
+            <div class="vt-card" id="book-hurley">
+              <div class="cover"><span class="cover__fallback">简明逻辑学导论</span><img src="https://covers.openlibrary.org/b/id/364654-L.jpg" onerror="this.remove()" alt=""></div>
+              <div>
+                <div class="vt-zh">《简明逻辑学导论》</div>
+                <div class="vt-en">A Concise Introduction to Logic · Patrick Hurley · Cengage</div>
+                <div class="vt-press"><b>帕特里克·赫尔利</b> · 北美最畅销逻辑教材 · 有中译</div>
+                <div class="vt-intro">非形式 + 形式逻辑都讲，例子友好。逻辑是读后面一切论证的工具，必须先备齐。</div>
+                <div class="vt-who">🎓 北美使用最广的本科逻辑教材，14 版长销</div>
+              </div>
+            </div>
+          </div>
+          <div class="vt-aside">
+            <div class="vt-roletag">
+              <span class="vt-rt-badge role-deep">课2 · 工具课</span>
+              <span class="vt-rt-note">与课1并行：哲学的"实验技能"，整条路线全程要用</span>
+            </div>
+            <div class="vt-alt-wrap">
+              <div class="vt-subcard" id="book-forallx">
+                <div class="cover"><span class="cover__fallback">forall x</span><img src="https://covers.openlibrary.org/b/id/9207942-L.jpg" onerror="this.remove()" alt=""></div>
+                <div>
+                  <span class="vt-sub-role role-alt">备选 · 免费</span>
+                  <div class="vt-sub-zh">forall x：形式逻辑导论</div>
+                  <div class="vt-sub-en">forall x · Magnus &amp; Button · Open Logic Project</div>
+                  <div class="vt-sub-intro">开放教材，聚焦一阶逻辑与自然演绎，<a href="https://forallx.openlogicproject.org/" target="_blank">全文免费</a>。</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 阶段二 -->
+      <div class="vt-phase" id="phase-2">
+        <div class="vt-phase-hd">阶段二 · 古代与中世纪 <small>· 原典与导读并读</small></div>
+
+        <div class="vt-course vt-course--ml">
+          <div class="vt-main">
+            <div class="vt-card" id="book-republic">
+              <div class="cover"><span class="cover__fallback">理想国</span><img src="https://covers.openlibrary.org/b/id/14418448-L.jpg" onerror="this.remove()" alt=""></div>
+              <div>
+                <div class="vt-zh">柏拉图《理想国》</div>
+                <div class="vt-en">Plato, Republic · 推荐 G.M.A. Grube / Reeve 英译 · 中译：商务印书馆</div>
+                <div class="vt-press"><b>柏拉图</b> · 英美高校最常指定的哲学文本之一</div>
+                <div class="vt-intro">正义、知识、灵魂、理想政体一网打尽，西方哲学的总纲。建议从卷一对话读起感受论辩。</div>
+                <div class="vt-who">🎓 耶鲁本科政治哲学导论核心文本（<a href="https://oyc.yale.edu/political-science/plsc-114" target="_blank">Open Yale</a>）；芝加哥大学通识核心 SOSC 序列指定</div>
+              </div>
+            </div>
+          </div>
+          <div class="vt-aside">
+            <div class="vt-roletag">
+              <span class="vt-rt-badge role-primary">课3 · 原典 A</span>
+              <span class="vt-rt-note">古希腊两座高峰之一；与下方《尼各马可伦理学》并列必读，不是主从</span>
+            </div>
+            <div class="vt-alt-wrap">
+              <div class="vt-subcard" id="book-nicomachean">
+                <div class="cover"><span class="cover__fallback">尼各马可伦理学</span><img src="https://covers.openlibrary.org/b/id/12593945-L.jpg" onerror="this.remove()" alt=""></div>
+                <div>
+                  <span class="vt-sub-role role-primary">原典 B · 并列</span>
+                  <div class="vt-sub-zh">亚里士多德《尼各马可伦理学》</div>
+                  <div class="vt-sub-en">Aristotle, Nicomachean Ethics · 中译：商务印书馆</div>
+                  <div class="vt-sub-intro">德性伦理学源头，与柏拉图理念论针锋相对——这是一组<b>对立的原典</b>，要对照着读。</div>
+                </div>
+              </div>
+              <div class="vt-subcard" id="book-cambgreek">
+                <div class="cover"><span class="cover__fallback">剑桥希腊罗马哲学指南</span><img src="https://covers.openlibrary.org/b/id/354652-L.jpg" onerror="this.remove()" alt=""></div>
+                <div>
+                  <span class="vt-sub-role role-secondary">导读 · 工具</span>
+                  <div class="vt-sub-zh">《剑桥希腊罗马哲学指南》</div>
+                  <div class="vt-sub-en">The Cambridge Companion to Greek and Roman Philosophy</div>
+                  <div class="vt-sub-intro">原典读不动时翻它，给历史脉络与论证重构。配 Kenny《古代哲学》亦可。</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="vt-course vt-course--mr">
+          <div class="vt-main">
+            <div class="vt-card" id="book-aquinas">
+              <div class="cover"><span class="cover__fallback">阿奎那哲学著作选</span><img src="https://covers.openlibrary.org/b/id/118848-L.jpg" onerror="this.remove()" alt=""></div>
+              <div>
+                <div class="vt-zh">阿奎那《哲学著作选》</div>
+                <div class="vt-en">Aquinas, Selected Philosophical Writings · Oxford World's Classics</div>
+                <div class="vt-press"><b>托马斯·阿奎那</b> · 选读《神学大全》核心条目</div>
+                <div class="vt-intro">中世纪经院哲学顶峰，看亚里士多德如何被接入基督教神学、上帝存在如何被论证。</div>
+              </div>
+            </div>
+          </div>
+          <div class="vt-aside">
+            <div class="vt-roletag">
+              <span class="vt-rt-badge role-primary">课4 · 原典</span>
+              <span class="vt-rt-note">中世纪选读即可，不必通读《神学大全》；重在"信仰与理性"之争</span>
+            </div>
+            <div class="vt-alt-wrap">
+              <div class="vt-subcard" id="book-kennymed">
+                <div class="cover"><span class="cover__fallback">中世纪哲学</span><img src="https://covers.openlibrary.org/b/id/132428-L.jpg" onerror="this.remove()" alt=""></div>
+                <div>
+                  <span class="vt-sub-role role-secondary">导读 · 断代史</span>
+                  <div class="vt-sub-zh">《中世纪哲学》</div>
+                  <div class="vt-sub-en">Medieval Philosophy · Anthony Kenny · Oxford UP</div>
+                  <div class="vt-sub-intro">Kenny 四卷本西方哲学史的中世纪卷，把奥古斯丁到奥卡姆串成线。</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 阶段三 -->
+      <div class="vt-phase" id="phase-3">
+        <div class="vt-phase-hd">阶段三 · 近代 <small>· 认识论的两条对立路线</small></div>
+
+        <div class="vt-course vt-course--ml">
+          <div class="vt-main">
+            <div class="vt-card" id="book-descartes">
+              <div class="cover"><span class="cover__fallback">第一哲学沉思集</span><img src="https://covers.openlibrary.org/b/id/345384-L.jpg" onerror="this.remove()" alt=""></div>
+              <div>
+                <div class="vt-zh">笛卡尔《第一哲学沉思集》</div>
+                <div class="vt-en">Descartes, Meditations on First Philosophy · 中译：商务印书馆</div>
+                <div class="vt-press"><b>勒内·笛卡尔</b> · 理性论开山 · 近代哲学起点</div>
+                <div class="vt-intro">"我思故我在"的出处，六篇沉思短而硬，是近代哲学课最常用的起点文本。</div>
+                <div class="vt-who">🎓 英美高校近代哲学导论的标准起点读物</div>
+              </div>
+            </div>
+          </div>
+          <div class="vt-aside">
+            <div class="vt-roletag">
+              <span class="vt-rt-badge role-primary">课5 · 原典 A · 理性论</span>
+              <span class="vt-rt-note">与下方休谟是一组<b>对立论争</b>：知识源于天赋理性 vs 源于经验</span>
+            </div>
+            <div class="vt-alt-wrap">
+              <div class="vt-subcard" id="book-hume">
+                <div class="cover"><span class="cover__fallback">人性论</span><img src="https://covers.openlibrary.org/b/id/8242787-L.jpg" onerror="this.remove()" alt=""></div>
+                <div>
+                  <span class="vt-sub-role role-primary">原典 B · 经验论</span>
+                  <div class="vt-sub-zh">休谟《人性论》</div>
+                  <div class="vt-sub-en">Hume, A Treatise of Human Nature · 中译：商务印书馆</div>
+                  <div class="vt-sub-intro">经验论巅峰，因果与归纳问题的源头，直接逼出康德。与笛卡尔正面对撞。</div>
+                </div>
+              </div>
+              <div class="vt-subcard" id="book-humeenq">
+                <div class="cover"><span class="cover__fallback">人类理解研究</span><img src="https://covers.openlibrary.org/b/id/314112-L.jpg" onerror="this.remove()" alt=""></div>
+                <div>
+                  <span class="vt-sub-role role-alt">替代 · 较短</span>
+                  <div class="vt-sub-zh">休谟《人类理解研究》</div>
+                  <div class="vt-sub-en">An Enquiry Concerning Human Understanding</div>
+                  <div class="vt-sub-intro">《人性论》的精炼改写本，篇幅小得多，时间紧可用它替代。</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="vt-course vt-course--mr">
+          <div class="vt-main">
+            <div class="vt-card" id="book-kantcpr">
+              <div class="cover"><span class="cover__fallback">纯粹理性批判</span><img src="https://covers.openlibrary.org/b/id/1994279-L.jpg" onerror="this.remove()" alt=""></div>
+              <div>
+                <div class="vt-zh">康德《纯粹理性批判》</div>
+                <div class="vt-en">Kant, Critique of Pure Reason · 推荐 Guyer/Wood 英译 · 中译：邓晓芒/李秋零</div>
+                <div class="vt-press"><b>伊曼努尔·康德</b> · 近代哲学的分水岭</div>
+                <div class="vt-intro">调和理性论与经验论，全书极难——这一课<b>必须配导读</b>才读得动，不要硬啃原文。</div>
+                <div class="vt-who">🎓 各校近代哲学高阶课核心文本</div>
+              </div>
+            </div>
+          </div>
+          <div class="vt-aside">
+            <div class="vt-roletag">
+              <span class="vt-rt-badge role-primary">课6 · 原典（难）</span>
+              <span class="vt-rt-note">这是"原典+导读"互补关系最极端的一课：原文几乎无法独立读懂</span>
+            </div>
+            <div class="vt-alt-wrap">
+              <div class="vt-subcard" id="book-gardner">
+                <div class="cover"><span class="cover__fallback">康德导读</span><img src="https://covers.openlibrary.org/b/id/263734-L.jpg" onerror="this.remove()" alt=""></div>
+                <div>
+                  <span class="vt-sub-role role-secondary">导读 · 几乎必配</span>
+                  <div class="vt-sub-zh">《康德与〈纯粹理性批判〉》</div>
+                  <div class="vt-sub-en">Routledge GuideBook · Sebastian Gardner</div>
+                  <div class="vt-sub-intro">逐章拆解《纯批》结构与术语，与原典逐节对读，是公认的入门拐杖。</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 阶段四 -->
+      <div class="vt-phase" id="phase-4">
+        <div class="vt-phase-hd">阶段四 · 核心分支与现当代 <small>· 读完阶段三即可挑方向</small></div>
+
+        <div class="vt-course vt-course--ml">
+          <div class="vt-main">
+            <div class="vt-card" id="book-mill">
+              <div class="cover"><span class="cover__fallback">功利主义</span><img src="https://covers.openlibrary.org/b/id/675806-L.jpg" onerror="this.remove()" alt=""></div>
+              <div>
+                <div class="vt-zh">密尔《功利主义》</div>
+                <div class="vt-en">J. S. Mill, Utilitarianism · 中译：商务印书馆 / 上海人民</div>
+                <div class="vt-press"><b>约翰·斯图尔特·密尔</b> · 规范伦理学经典</div>
+                <div class="vt-intro">最清晰的后果论纲领，篇幅短。牛津一年级道德哲学整学期就精读这一本。</div>
+                <div class="vt-who">🎓 牛津一年级道德哲学（Prelims）配 Mill《功利主义》精读（<a href="https://www.philosophy.ox.ac.uk/course-descriptions-fpe" target="_blank">Oxford FPE</a>）</div>
+              </div>
+            </div>
+          </div>
+          <div class="vt-aside">
+            <div class="vt-roletag">
+              <span class="vt-rt-badge role-primary">课7 · 原典 · 伦理学</span>
+              <span class="vt-rt-note">分支方向：从史的纵线切到"伦理学"这条横向分支</span>
+            </div>
+            <div class="vt-alt-wrap">
+              <div class="vt-subcard" id="book-rawls">
+                <div class="cover"><span class="cover__fallback">正义论</span><img src="https://covers.openlibrary.org/b/id/4516035-L.jpg" onerror="this.remove()" alt=""></div>
+                <div>
+                  <span class="vt-sub-role role-alt">进阶 · 政治哲学</span>
+                  <div class="vt-sub-zh">罗尔斯《正义论》</div>
+                  <div class="vt-sub-en">John Rawls, A Theory of Justice · 中译：中国社会科学</div>
+                  <div class="vt-sub-intro">20 世纪政治哲学最重要的著作，与功利主义对立，行有余力再上。</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="vt-course vt-course--mr">
+          <div class="vt-main">
+            <div class="vt-card" id="book-wittgenstein">
+              <div class="cover"><span class="cover__fallback">哲学研究</span><img src="https://covers.openlibrary.org/b/id/397102-L.jpg" onerror="this.remove()" alt=""></div>
+              <div>
+                <div class="vt-zh">维特根斯坦《哲学研究》</div>
+                <div class="vt-en">Wittgenstein, Philosophical Investigations · 中译：商务印书馆</div>
+                <div class="vt-press"><b>路德维希·维特根斯坦</b> · 20 世纪分析哲学转向</div>
+                <div class="vt-intro">语言、意义与"语言游戏"，分析哲学的现代起点。代表分析-欧陆两大传统中的分析一支。</div>
+              </div>
+            </div>
+          </div>
+          <div class="vt-aside">
+            <div class="vt-roletag">
+              <span class="vt-rt-badge role-primary">课8 · 原典 · 现当代</span>
+              <span class="vt-rt-note">分析 vs 欧陆是当代哲学的<b>分裂主线</b>；此处取分析一脉作样本</span>
+            </div>
+            <div class="vt-alt-wrap">
+              <div class="vt-subcard" id="book-russellhist">
+                <div class="cover"><span class="cover__fallback">西方哲学史</span><img src="https://covers.openlibrary.org/b/id/405359-L.jpg" onerror="this.remove()" alt=""></div>
+                <div>
+                  <span class="vt-sub-role role-ref">通史 · 全程参考</span>
+                  <div class="vt-sub-zh">罗素《西方哲学史》</div>
+                  <div class="vt-sub-en">A History of Western Philosophy · Bertrand Russell · 中译：商务印书馆</div>
+                  <div class="vt-sub-intro">一部可通读的单人哲学史，任何阶段卡住都可翻来定位人物与脉络。更新版可选 Kenny《西方哲学新史》。</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <h3 style="font-size:18px;font-weight:600;margin:36px 0 4px;">阅读进度</h3>
+    <p style="font-size:12.5px;color:var(--steel);">由 ingest / read / coread 自动更新。原典与导读分别计列。</p>
+    <div class="progress-wrap">
+      <div class="progress-head"><span>书</span><span>入库</span><span>翻译</span><span>深读打底</span><span>共读进度</span></div>
+      <div class="progress-row"><span class="pb">《你的第一本哲学书》内格尔（课1 主读）</span><span class="pc">☐</span><span class="pc">☐</span><span class="pc">☐</span><span class="pc">—</span></div>
+      <div class="progress-row"><span class="pb">《简明逻辑学导论》赫尔利（课2 工具）</span><span class="pc">☐</span><span class="pc">—</span><span class="pc">—</span><span class="pc">—</span></div>
+      <div class="progress-row"><span class="pb">柏拉图《理想国》（课3 原典 A）</span><span class="pc">☐</span><span class="pc">☐</span><span class="pc">☐</span><span class="pc">—</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 选书权衡 ══ -->
+<section class="section section--soft">
+  <div class="page-container">
+    <div class="section__label"><span class="section__label-line"></span>选书权衡 · 读者背景</div>
+    <h2 class="section__heading">为什么是这份书单</h2>
+    <p class="section__sub">写给零基础、想亲手读懂西方哲学元典的通识读者。四个设定直接决定了选书与读法。</p>
+    <div class="rationale-grid">
+      <div class="rationale-card"><div class="rc-cond">零哲学基础</div><div class="rc-act">入门选不预设背景的内格尔；先建"自己追问"的习惯再碰原典</div></div>
+      <div class="rationale-card"><div class="rc-cond">原典优先</div><div class="rc-act">每课必有一本原著，导读只为读懂原著服务，绝不用导读替代原典</div></div>
+      <div class="rationale-card"><div class="rc-cond">按史推进</div><div class="rc-act">古代→中世纪→近代为纵线，伦理/逻辑等分支作横向切口</div></div>
+      <div class="rationale-card"><div class="rc-cond">英文可读</div><div class="rc-act">译本众多，优先选公认权威译本；难本（康德）中英对照读</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 末屏 ══ -->
+<section class="section">
+  <div class="page-container">
+    <div class="section__label"><span class="section__label-line"></span>关于这份档案</div>
+    <h2 class="section__heading">这是怎么来的，怎么用</h2>
+    <p class="section__sub">Eatbook 是和你一起读书的 AI 伙伴，以最小摩擦的彻底理解为目标。五个技能接力，把一个领域从选书带到读穿。</p>
+    <div class="about-grid">
+      <div class="about-card">
+        <h3>五技能接力</h3>
+        <p style="font-size:13.5px;color:var(--slate);line-height:1.6;">这份档案由 <code style="color:var(--primary);font-weight:600;">/eatbook:domain</code> 生成；它先帮你把领域拆成分阶段的学习路线、配好每门课的原典与导读，再一路陪你读穿。拿到书后顺着下面五步走即可。</p>
+        <div class="skill-flow">
+          <span class="skill-step"><code>domain</code> 选书路线</span><span class="skill-arrow">→</span>
+          <span class="skill-step"><code>ingest</code> 入库翻译</span><span class="skill-arrow">→</span>
+          <span class="skill-step"><code>read</code> 深读打底</span><span class="skill-arrow">→</span>
+          <span class="skill-step"><code>coread</code> 逐章共读</span><span class="skill-arrow">→</span>
+          <span class="skill-step"><code>branch</code> 分支深研</span>
+        </div>
+      </div>
+      <div class="find-card">
+        <h3>书去哪里找</h3>
+        <p>拿到 PDF 就能 <code style="color:#d6b6f6;">/eatbook:ingest</code> 入库。原典多有公版电子文本，下面是常用入口。</p>
+        <div class="find-rows">
+          <div class="find-row"><span class="k">原典公版</span><span class="v">Gutenberg · Wikisource<small>柏拉图/休谟/密尔等公版全文</small></span></div>
+          <div class="find-row"><span class="k">译本/导读</span><span class="v">Z-Library<small>按书名 / ISBN 检索</small></span></div>
+          <div class="find-row"><span class="k">词条/二手</span><span class="v">SEP 斯坦福哲学百科<small>plato.stanford.edu，权威免费</small></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer__brand"><span class="footer__brand-icon">E</span>Eatbook</div>
+  <div class="footer__note">哲学 · 领域档案 · 每门课原典与导读来源见 system.md</div>
+  <div style="font-size:13px;color:var(--stone);">方案 B · 可交互 · 压测样本</div>
+</footer>
+
+<script>
+(function(){
+  var phases=[].slice.call(document.querySelectorAll('.vt-phase'));
+  var wrap=document.querySelector('.vtwrap');
+  var fill=document.getElementById('lineFill');
+  var lockUntil=0;
+
+  function setActive(ph){
+    if(!ph)return;
+    phases.forEach(function(p){p.classList.toggle('is-active', p===ph);});
+  }
+  function phaseOf(el){
+    return el.classList.contains('vt-phase') ? el : (el.closest ? el.closest('.vt-phase') : null);
+  }
+  function scrollToEl(el,smooth){
+    var y=el.getBoundingClientRect().top + window.pageYOffset - 18;
+    window.scrollTo({top:y, behavior: smooth ? 'smooth' : 'auto'});
+  }
+  function updateLine(){
+    if(!wrap||!fill)return;
+    var r=wrap.getBoundingClientRect();
+    var prog=(window.innerHeight*0.5 - r.top)/r.height;
+    fill.style.height=(Math.max(0,Math.min(1,prog))*100)+'%';
+  }
+
+  // 锚点点击：显式滚到目标绝对位置 + 立即高亮目标所属阶段
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){
+    a.addEventListener('click',function(e){
+      var id=a.getAttribute('href').slice(1);
+      var el=document.getElementById(id);
+      if(!el)return;
+      e.preventDefault();
+      scrollToEl(el,true);
+      if(history.replaceState)history.replaceState(null,'','#'+id);
+      var ph=phaseOf(el);
+      if(ph){setActive(ph); lockUntil=Date.now()+1000;}
+    });
+  });
+
+  // 当前阶段高亮：判定带靠视口上部，点击后短暂锁定避免被滚动途中抢走
+  var obs=new IntersectionObserver(function(entries){
+    if(Date.now()<lockUntil)return;
+    entries.forEach(function(e){ if(e.isIntersecting) setActive(e.target); });
+  },{rootMargin:'-12% 0px -80% 0px',threshold:0});
+  phases.forEach(function(p){obs.observe(p);});
+
+  window.addEventListener('scroll',updateLine,{passive:true});
+  window.addEventListener('resize',updateLine);
+  updateLine();
+
+  // 初始带 #hash 访问：用绝对定位精确跳转
+  if(location.hash){
+    var t0=document.getElementById(location.hash.slice(1));
+    if(t0)setTimeout(function(){scrollToEl(t0,false); setActive(phaseOf(t0)); updateLine();},120);
+  }
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "name": "university",
+  "description": "大学 · 把任意学科变成分阶段、可交互的学习路线档案",
+  "owner": {
+    "name": "junjieashan",
+    "email": "shanjunjie666@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "university",
+      "source": "./",
+      "description": "大学：输入一个领域，产出分阶段、可交互的学习路线 HTML 档案（阶段 → 课 → 配书 → 现在去找哪本）"
+    }
+  ]
+}

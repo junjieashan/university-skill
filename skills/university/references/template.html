@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>神经科学 — 领域档案 · Eatbook（方案B·可交互）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --primary:#5645d4; --primary-pressed:#4534b3;
+    --brand-navy:#0a1530; --link-blue:#0075de; --brand-orange:#dd5b00;
+    --brand-purple-300:#d6b6f6; --brand-purple-800:#391c57;
+    --tint-peach:#ffe8d4; --tint-rose:#fde0ec; --tint-mint:#d9f3e1;
+    --tint-lavender:#e6e0f5; --tint-sky:#dcecfa; --tint-yellow:#fef7d6;
+    --tint-yellow-bold:#f9e79f; --tint-cream:#f8f5e8;
+    --canvas:#ffffff; --surface:#f6f5f4; --surface-soft:#fafaf9;
+    --hairline:#e5e3df; --hairline-soft:#ede9e4; --hairline-strong:#c8c4be;
+    --ink-deep:#000; --ink:#1a1a1a; --charcoal:#37352f; --slate:#5d5b54;
+    --steel:#787671; --stone:#a4a097; --muted:#bbb8b1;
+    --on-dark:#fff; --on-dark-muted:#a4a097;
+    --r-sm:6px; --r-md:8px; --r-lg:12px; --r-xl:16px; --r-full:9999px;
+    --sp-xxs:4px; --sp-xs:8px; --sp-sm:12px; --sp-md:16px; --sp-lg:20px;
+    --sp-xl:24px; --sp-xxl:32px; --sp-xxxl:40px; --sp-section:64px;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:Inter,'PingFang SC','Microsoft YaHei','Hiragino Sans GB',-apple-system,sans-serif;
+    font-size:16px;line-height:1.55;color:var(--ink);background:var(--canvas);-webkit-font-smoothing:antialiased;}
+
+  /* promo banner */
+  .promo-banner{background:var(--surface);border-bottom:1px solid var(--hairline);
+    padding:14px var(--sp-md);text-align:center;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;}
+  .promo-brand{font-size:28px;font-weight:700;letter-spacing:-.5px;color:var(--ink);text-decoration:none;line-height:1;
+    display:inline-flex;align-items:center;gap:8px;transition:color .15s;}
+  .promo-brand:hover{color:var(--primary);}
+  .promo-brand .gh{font-size:13px;color:var(--stone);font-weight:500;}
+  .promo-rest{font-size:14px;font-weight:500;color:var(--steel);}
+
+  .page-container{max-width:1120px;margin:0 auto;padding:0 32px;}
+
+  /* HERO */
+  .hero{background:var(--brand-navy);color:var(--on-dark);padding:84px 32px 64px;text-align:center;position:relative;overflow:hidden;}
+  .hero::before{content:'';position:absolute;inset:0;background-image:
+    radial-gradient(circle 8px at 8% 18%,#5645d4 0,transparent 100%),
+    radial-gradient(circle 6px at 14% 72%,#ff64c8 0,transparent 100%),
+    radial-gradient(circle 10px at 88% 14%,#f9e79f 0,transparent 100%),
+    radial-gradient(circle 7px at 92% 68%,#d9f3e1 0,transparent 100%),
+    radial-gradient(circle 5px at 5% 50%,#dcecfa 0,transparent 100%),
+    radial-gradient(circle 9px at 95% 42%,#fde0ec 0,transparent 100%);pointer-events:none;}
+  .hero::after{content:'';position:absolute;inset:0;background-image:
+    linear-gradient(135deg,rgba(86,69,212,.08) 1px,transparent 1px),
+    linear-gradient(45deg,rgba(86,69,212,.05) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;}
+  .hero__inner{position:relative;z-index:1;max-width:1020px;margin:0 auto;}
+  .hero__eyebrow{display:inline-flex;align-items:center;gap:var(--sp-xs);font-size:11px;font-weight:600;
+    letter-spacing:1px;text-transform:uppercase;color:var(--on-dark-muted);margin-bottom:var(--sp-lg);}
+  .hero__eyebrow-dot{width:6px;height:6px;border-radius:50%;background:#f5d75e;}
+  .hero__title{font-size:clamp(34px,5vw,64px);font-weight:600;line-height:1.06;letter-spacing:-1.5px;margin-bottom:var(--sp-md);}
+  .hero__title em{font-style:normal;color:var(--brand-purple-300);}
+  .hero__goal{display:inline-block;font-size:16px;line-height:1.6;color:#cfd3e0;
+    background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);
+    border-radius:var(--r-full);padding:8px 22px;margin-bottom:var(--sp-md);}
+  .hero__goal b{color:#fff;font-weight:600;}
+  .hero__meta{font-size:14px;color:#aeb4c6;margin-bottom:var(--sp-xl);}
+  .hero__meta b{color:#fff;font-weight:600;}
+
+  /* ROUTE MAP */
+  .routemap{background:var(--canvas);border-radius:var(--r-xl);border:1px solid rgba(255,255,255,.14);
+    box-shadow:rgba(15,15,15,.30) 0 24px 60px -12px;padding:34px 38px 42px;margin:36px auto 0;max-width:1080px;text-align:left;}
+  .routemap__cap{display:flex;align-items:baseline;gap:10px;margin-bottom:26px;}
+  .routemap__cap h2{font-size:17px;font-weight:600;color:var(--ink);}
+  .routemap__cap span{font-size:13px;color:var(--steel);}
+  .rm-track{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;position:relative;}
+  .rm-track::before{content:'';position:absolute;top:9px;left:11%;right:11%;height:2px;
+    background:linear-gradient(90deg,var(--primary) 0,var(--primary) 33%,var(--hairline-strong) 33%);z-index:0;}
+  .rm-stage{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;}
+  .rm-stage-top{display:flex;flex-direction:column;align-items:center;text-decoration:none;
+    padding:4px 10px 6px;border-radius:var(--r-md);transition:background .15s;}
+  .rm-stage-top:hover{background:var(--surface);}
+  .rm-stage-top:hover .rm-stage__big{color:var(--primary);}
+  .rm-node{width:20px;height:20px;border-radius:50%;background:var(--canvas);border:3px solid var(--hairline-strong);margin-bottom:14px;transition:transform .15s;}
+  .rm-stage-top:hover .rm-node{transform:scale(1.15);}
+  .rm-stage--current .rm-node{border-color:var(--primary);background:var(--primary);box-shadow:0 0 0 5px rgba(86,69,212,.16);}
+  .rm-stage__name{font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--stone);margin-bottom:2px;}
+  .rm-stage--current .rm-stage__name{color:var(--primary);}
+  .rm-stage__big{font-size:14px;font-weight:600;color:var(--ink);text-align:center;transition:color .15s;}
+  .rm-stem{width:2px;height:14px;background:var(--hairline);margin:14px 0 10px;}
+  .rm-stage--current .rm-stem{background:var(--primary);}
+  .rm-courses{display:flex;flex-direction:column;gap:9px;width:100%;}
+  .rm-course{background:var(--surface-soft);border:1px solid var(--hairline);border-radius:var(--r-md);padding:10px 11px;}
+  .rm-stage--current .rm-course{background:#f3f1fc;border-color:#d8d2f4;}
+  .rm-course__hd{display:block;font-size:12.5px;font-weight:600;color:var(--charcoal);line-height:1.35;text-decoration:none;border-radius:4px;transition:color .12s;}
+  .rm-course__hd:hover{color:var(--primary);}
+  .rm-course__cn{color:var(--primary);}
+  .rm-stage:not(.rm-stage--current) .rm-course__cn{color:var(--stone);}
+  .rm-books{margin-top:7px;display:flex;flex-direction:column;gap:3px;}
+  a.rm-book{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--steel);text-decoration:none;
+    border-radius:4px;padding:2px 5px;margin-left:-5px;transition:background .12s,color .12s;}
+  a.rm-book:hover{background:#ece8fb;color:var(--primary);}
+  .rmb-dot{width:6px;height:9px;border-radius:1px;background:var(--brand-purple-300);flex-shrink:0;}
+  .rmb-dot.main{background:var(--primary);}
+  .rmb-dot.cont{background:var(--tint-mint);border:1px solid #9fd9b0;}
+  .rmb-dot.alt{background:var(--tint-yellow-bold);}
+  .rmb-dot.ref{background:var(--tint-cream);border:1px solid var(--hairline-strong);}
+  .rmb-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .rmb-tag{font-size:9px;color:var(--stone);flex-shrink:0;}
+
+  /* SECTION FRAME */
+  .section{padding:var(--sp-section) 0;}
+  .section--soft{background:var(--surface-soft);border-top:1px solid var(--hairline);}
+  .section__label{display:inline-flex;align-items:center;gap:var(--sp-xs);font-size:11px;font-weight:600;
+    letter-spacing:1px;text-transform:uppercase;color:var(--stone);margin-bottom:var(--sp-md);}
+  .section__label-line{width:20px;height:2px;background:var(--muted);border-radius:2px;}
+  .section__heading{font-size:clamp(24px,2.6vw,32px);font-weight:600;letter-spacing:-.5px;margin-bottom:var(--sp-xs);}
+  .section__sub{font-size:15px;color:var(--steel);margin-bottom:var(--sp-xl);}
+  .section__sub b{color:var(--primary);font-weight:600;}
+
+  /* role badges + cover */
+  .role-primary{background:var(--tint-lavender);color:var(--brand-purple-800);}
+  .role-secondary{background:var(--tint-sky);color:#1a3c6e;}
+  .role-deep{background:var(--tint-peach);color:#793400;}
+  .role-alt{background:var(--tint-yellow);color:#6b5a00;}
+  .role-cont{background:var(--tint-mint);color:#1a5c30;}
+  .role-ref{background:var(--tint-cream);color:var(--slate);}
+  .cover{position:relative;aspect-ratio:2/3;border-radius:var(--r-md);overflow:hidden;
+    background:linear-gradient(150deg,#3a2a99,#5645d4);box-shadow:0 6px 20px rgba(15,15,15,.16);align-self:start;}
+  .cover img{position:relative;z-index:1;width:100%;height:100%;object-fit:cover;display:block;}
+  .cover__fallback{position:absolute;inset:0;z-index:0;display:flex;align-items:center;justify-content:center;
+    padding:8px;text-align:center;font-size:11px;font-weight:600;color:#fff;line-height:1.3;}
+
+  /* ─── INTERACTIVE TIMELINE ──────────────────────── */
+  .vtwrap{max-width:1080px;margin:0 auto;position:relative;padding:8px 0 24px;}
+  .vt-line{position:absolute;top:0;bottom:0;left:50%;width:3px;transform:translateX(-50%);
+    background:var(--hairline-strong);border-radius:3px;z-index:0;overflow:hidden;}
+  .vt-line-fill{position:absolute;top:0;left:0;width:100%;height:0;
+    background:linear-gradient(180deg,var(--primary),#7b6cf0);border-radius:3px;}
+
+  /* 阶段框 */
+  .vt-phase{position:relative;z-index:1;border:1.5px solid var(--hairline);border-radius:var(--r-xl);
+    padding:46px 0 32px;margin-bottom:30px;transition:border-color .3s,box-shadow .3s;scroll-margin-top:20px;}
+  .vt-phase.is-active{border-color:var(--primary);box-shadow:0 12px 40px rgba(86,69,212,.10);}
+  .vt-phase-hd{position:absolute;top:-16px;left:50%;transform:translateX(-50%);z-index:4;
+    display:inline-flex;align-items:center;gap:8px;background:var(--canvas);
+    border:2px solid var(--hairline-strong);color:var(--charcoal);font-size:13px;font-weight:600;
+    padding:6px 20px;border-radius:var(--r-full);white-space:nowrap;transition:all .3s;}
+  .vt-phase.is-active .vt-phase-hd{background:var(--primary);border-color:var(--primary);color:#fff;box-shadow:0 0 0 5px rgba(86,69,212,.14);}
+  .vt-phase-hd small{font-weight:400;color:var(--steel);}
+  .vt-phase.is-active .vt-phase-hd small{color:rgba(255,255,255,.8);}
+
+  /* 课：主选一侧 + 对面放「角色标签 + 备选」 */
+  .vt-course{position:relative;display:grid;grid-template-columns:1fr 1fr;column-gap:60px;align-items:start;padding:0 28px;}
+  .vt-course + .vt-course{margin-top:26px;}
+  .vt-main{width:100%;max-width:404px;position:relative;}
+  .vt-aside{width:100%;max-width:360px;display:flex;flex-direction:column;}
+  /* 主左 */
+  .vt-course--ml .vt-main{grid-column:1;justify-self:end;}
+  .vt-course--ml .vt-aside{grid-column:2;justify-self:start;align-items:flex-start;}
+  /* 主右 */
+  .vt-course--mr .vt-main{grid-column:2;justify-self:start;order:2;}
+  .vt-course--mr .vt-aside{grid-column:1;justify-self:end;order:1;align-items:flex-end;text-align:right;}
+
+  /* 主选 → 中轴：实线 + 圆点 */
+  .vt-main::before{content:'';position:absolute;top:30px;height:2px;width:30px;background:var(--hairline-strong);z-index:1;}
+  .vt-main::after{content:'';position:absolute;top:24px;width:14px;height:14px;border-radius:50%;
+    background:var(--canvas);border:3px solid var(--hairline-strong);z-index:3;}
+  .vt-course--ml .vt-main::before{right:-30px;}
+  .vt-course--ml .vt-main::after{right:-37px;}
+  .vt-course--mr .vt-main::before{left:-30px;}
+  .vt-course--mr .vt-main::after{left:-37px;}
+  .vt-course.is-current .vt-main::after{border-color:var(--primary);background:var(--primary);box-shadow:0 0 0 5px rgba(86,69,212,.16);}
+  .vt-course.is-current .vt-main::before{background:var(--primary);}
+
+  /* 角色标签：在节点对面，与主卡相对 */
+  .vt-roletag{display:flex;flex-direction:column;gap:5px;margin-top:18px;margin-bottom:8px;}
+  .vt-rt-badge{display:inline-flex;align-self:flex-start;font-size:12px;font-weight:600;padding:4px 13px;border-radius:var(--r-full);}
+  .vt-course--mr .vt-rt-badge{align-self:flex-end;}
+  .vt-rt-note{font-size:11.5px;color:var(--steel);line-height:1.45;max-width:230px;}
+
+  /* 备选 → 中轴：虚线连接线 */
+  .vt-alt-wrap{margin-top:10px;display:flex;flex-direction:column;gap:10px;position:relative;width:100%;}
+  .vt-alt-wrap::before{content:'';position:absolute;top:18px;height:0;border-top:2px dashed var(--hairline-strong);width:30px;z-index:1;}
+  .vt-course--ml .vt-alt-wrap::before{left:-30px;}
+  .vt-course--mr .vt-alt-wrap::before{right:-30px;}
+
+  /* 主卡 */
+  .vt-card{background:var(--canvas);border:1px solid var(--hairline);border-radius:var(--r-lg);
+    padding:14px;display:grid;grid-template-columns:74px 1fr;gap:14px;box-shadow:0 4px 16px rgba(15,15,15,.05);
+    transition:box-shadow .16s,transform .16s,border-color .16s;text-align:left;scroll-margin-top:90px;}
+  .vt-card:hover{box-shadow:0 10px 30px rgba(15,15,15,.10);transform:translateY(-2px);}
+  .vt-course.is-current .vt-card{border-color:#d8d2f4;background:linear-gradient(135deg,#faf9ff,#fff);box-shadow:0 8px 28px rgba(86,69,212,.14);}
+  .vt-zh{font-size:15.5px;font-weight:600;color:var(--ink);line-height:1.3;}
+  .vt-en{font-size:11.5px;color:var(--stone);font-style:italic;margin-top:2px;line-height:1.4;}
+  .vt-press{font-size:12px;color:var(--slate);margin-top:6px;}
+  .vt-press b{color:var(--charcoal);}
+  .vt-intro{font-size:12.5px;color:var(--slate);line-height:1.55;margin-top:8px;padding-top:8px;border-top:1px solid var(--hairline-soft);}
+  .vt-who{font-size:11.5px;color:var(--steel);margin-top:6px;}
+  .vt-who a{color:var(--link-blue);text-decoration:none;}
+
+  /* 备选小卡（更小） */
+  .vt-subcard{background:var(--surface-soft);border:1px solid var(--hairline);border-radius:var(--r-md);
+    padding:9px;display:grid;grid-template-columns:44px 1fr;gap:10px;align-items:start;scroll-margin-top:90px;text-align:left;}
+  .vt-sub-role{display:inline-flex;font-size:9.5px;font-weight:600;padding:2px 6px;border-radius:var(--r-sm);margin-bottom:3px;}
+  .vt-sub-zh{font-size:12px;font-weight:600;color:var(--ink);line-height:1.25;}
+  .vt-sub-en{font-size:9.5px;color:var(--stone);font-style:italic;margin-top:1px;line-height:1.35;}
+  .vt-sub-intro{font-size:10px;color:var(--slate);line-height:1.4;margin-top:4px;}
+  .vt-sub-intro a{color:var(--link-blue);text-decoration:none;}
+
+  /* 锚点命中高亮 */
+  .vt-card:target,.vt-subcard:target{animation:flash 1.4s ease;}
+  @keyframes flash{0%{box-shadow:0 0 0 0 rgba(86,69,212,0);}25%{box-shadow:0 0 0 3px var(--primary),0 12px 32px rgba(86,69,212,.28);}100%{box-shadow:0 4px 16px rgba(15,15,15,.05);}}
+
+  /* progress / rationale / about / footer */
+  .progress-wrap{border:1px solid var(--hairline);border-radius:var(--r-lg);overflow:hidden;margin-top:var(--sp-md);}
+  .progress-row,.progress-head{display:grid;grid-template-columns:2.4fr 1fr 1fr 1fr 1.2fr;align-items:center;}
+  .progress-head{background:var(--surface);padding:11px var(--sp-lg);border-bottom:1px solid var(--hairline);}
+  .progress-head span{font-size:11px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--stone);text-align:center;}
+  .progress-head span:first-child{text-align:left;}
+  .progress-row{padding:11px var(--sp-lg);border-bottom:1px solid var(--hairline-soft);}
+  .progress-row:last-child{border-bottom:none;}
+  .progress-row:nth-child(even){background:var(--surface-soft);}
+  .progress-row .pb{font-size:13.5px;font-weight:500;color:var(--ink);}
+  .progress-row .pc{text-align:center;font-size:15px;color:var(--muted);}
+
+  .rationale-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--sp-md);}
+  .rationale-card{border-radius:var(--r-lg);padding:var(--sp-lg);}
+  .rationale-card:nth-child(1){background:var(--tint-peach);}
+  .rationale-card:nth-child(2){background:var(--tint-mint);}
+  .rationale-card:nth-child(3){background:var(--tint-sky);}
+  .rationale-card:nth-child(4){background:var(--tint-cream);}
+  .rc-cond{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--steel);margin-bottom:6px;}
+  .rc-act{font-size:14px;font-weight:600;color:var(--charcoal);line-height:1.45;}
+
+  .about-grid{display:grid;grid-template-columns:1.25fr 1fr;gap:var(--sp-xl);align-items:stretch;}
+  .about-card{background:var(--canvas);border:1px solid var(--hairline);border-radius:var(--r-lg);padding:var(--sp-xl);display:flex;flex-direction:column;}
+  .about-card h3{font-size:16px;font-weight:600;margin-bottom:var(--sp-sm);}
+  .skill-flow{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:var(--sp-md);}
+  .skill-step{display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--hairline);
+    border-radius:var(--r-full);padding:5px 12px;font-size:12.5px;color:var(--charcoal);}
+  .skill-step code{font-family:inherit;color:var(--primary);font-weight:600;}
+  .skill-arrow{color:var(--muted);align-self:center;font-size:12px;}
+  .find-card{background:var(--brand-navy);color:var(--on-dark);border-radius:var(--r-lg);padding:var(--sp-xl);display:flex;flex-direction:column;}
+  .find-card h3{font-size:16px;font-weight:600;margin-bottom:var(--sp-sm);color:#fff;}
+  .find-card p{font-size:13.5px;color:#c4c8d6;line-height:1.6;margin-bottom:var(--sp-xs);}
+  .find-rows{margin-top:auto;}
+  .find-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid rgba(255,255,255,.1);}
+  .find-row .k{font-size:13px;color:#a4a097;width:64px;flex-shrink:0;}
+  .find-row .v{font-size:14px;font-weight:600;color:#fff;}
+  .find-row .v small{font-weight:400;color:#a4a097;margin-left:6px;}
+
+  .footer{border-top:1px solid var(--hairline);padding:var(--sp-xl) 32px;display:flex;justify-content:space-between;
+    flex-wrap:wrap;gap:var(--sp-md);max-width:1120px;margin:0 auto;}
+  .footer__brand{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:var(--charcoal);}
+  .footer__brand-icon{width:24px;height:24px;background:var(--ink-deep);border-radius:var(--r-sm);display:flex;
+    align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:700;}
+  .footer__note{font-size:13px;color:var(--steel);}
+
+  @media (max-width:900px){
+    .rm-track{grid-template-columns:1fr 1fr;gap:var(--sp-lg);}
+    .rm-track::before{display:none;}
+    .rationale-grid{grid-template-columns:1fr 1fr;}
+    .about-grid{grid-template-columns:1fr;}
+    .vt-course{grid-template-columns:1fr;column-gap:0;}
+    .vt-course--mr .vt-main,.vt-course--mr .vt-aside{order:0;}
+    .vt-main,.vt-aside{grid-column:1!important;justify-self:stretch!important;max-width:none;align-items:flex-start!important;text-align:left!important;}
+    .vt-main::before,.vt-main::after,.vt-alt-wrap::before{display:none;}
+    .vt-line{left:18px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="promo-banner">
+  <a class="promo-brand" href="https://github.com/junjieashan" target="_blank" rel="noopener">Eatbook<span class="gh">↗ GitHub</span></a>
+  <span class="promo-rest">和你一起把一个领域读穿 — AI 辅助深度阅读</span>
+</div>
+
+<!-- ══ 第一屏：HERO + 可点击节点路线图 ══ -->
+<section class="hero">
+  <div class="hero__inner">
+    <div class="hero__eyebrow"><span class="hero__eyebrow-dot"></span>领域档案 · neuroscience</div>
+    <h1 class="hero__title"><em>神经科学</em> 系统学习路线</h1>
+    <div class="hero__goal">目标：<b>彻底搞懂脑与心智怎么运作</b></div>
+    <div class="hero__meta">2026-06-06 为 <b>junjieashan</b> 创建 · 9 门课 · 4 阶段</div>
+
+    <div class="routemap">
+      <div class="routemap__cap"><h2>学习路线</h2><span>点阶段圆点 / 课名跳到对应阶段，点书名跳到那本书；紫色为当前位置</span></div>
+      <div class="rm-track">
+
+        <div class="rm-stage rm-stage--current">
+          <a class="rm-stage-top" href="#phase-1">
+            <div class="rm-node"></div>
+            <div class="rm-stage__name">阶段一 · 当前</div>
+            <div class="rm-stage__big">脑的全景</div>
+          </a>
+          <div class="rm-stem"></div>
+          <div class="rm-courses">
+            <div class="rm-course">
+              <a class="rm-course__hd" href="#phase-1"><span class="rm-course__cn">课1</span> 脑的全景地图</a>
+              <div class="rm-books">
+                <a class="rm-book" href="#book-bear"><span class="rmb-dot main"></span><span class="rmb-name">《神经科学：探索脑》</span><span class="rmb-tag">主读</span></a>
+                <a class="rm-book" href="#book-purves"><span class="rmb-dot ref"></span><span class="rmb-name">《神经科学》Purves</span><span class="rmb-tag">备查</span></a>
+                <a class="rm-book" href="#book-blumenfeld"><span class="rmb-dot ref"></span><span class="rmb-name">《临床病例神经解剖学》</span><span class="rmb-tag">工具</span></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="rm-stage">
+          <a class="rm-stage-top" href="#phase-2">
+            <div class="rm-node"></div>
+            <div class="rm-stage__name">阶段二</div>
+            <div class="rm-stage__big">机制纵深</div>
+          </a>
+          <div class="rm-stem"></div>
+          <div class="rm-courses">
+            <div class="rm-course">
+              <a class="rm-course__hd" href="#phase-2"><span class="rm-course__cn">课2</span> 神经元怎么工作</a>
+              <div class="rm-books">
+                <a class="rm-book" href="#book-bear"><span class="rmb-dot cont"></span><span class="rmb-name">《探索脑》续读</span></a>
+                <a class="rm-book" href="#book-luo"><span class="rmb-dot"></span><span class="rmb-name">《神经生物学原理》</span><span class="rmb-tag">深入</span></a>
+              </div>
+            </div>
+            <div class="rm-course">
+              <a class="rm-course__hd" href="#phase-2"><span class="rm-course__cn">课3</span> 感觉与运动</a>
+              <div class="rm-books">
+                <a class="rm-book" href="#book-bear"><span class="rmb-dot cont"></span><span class="rmb-name">《探索脑》续读</span></a>
+                <a class="rm-book" href="#book-kandel"><span class="rmb-dot ref"></span><span class="rmb-name">《神经科学原理》Kandel</span><span class="rmb-tag">参考</span></a>
+              </div>
+            </div>
+            <div class="rm-course">
+              <a class="rm-course__hd" href="#phase-2"><span class="rm-course__cn">课4</span> 动机·情绪·节律</a>
+              <div class="rm-books">
+                <a class="rm-book" href="#book-bear"><span class="rmb-dot cont"></span><span class="rmb-name">《探索脑》续读</span></a>
+                <a class="rm-book" href="#book-breedlove"><span class="rmb-dot"></span><span class="rmb-name">《行为神经科学》</span><span class="rmb-tag">深入</span></a>
+              </div>
+            </div>
+            <div class="rm-course">
+              <a class="rm-course__hd" href="#phase-2"><span class="rm-course__cn">课5</span> 学习记忆与可塑性</a>
+              <div class="rm-books">
+                <a class="rm-book" href="#book-bear"><span class="rmb-dot cont"></span><span class="rmb-name">《探索脑》续读</span></a>
+                <a class="rm-book" href="#book-gluck"><span class="rmb-dot"></span><span class="rmb-name">《学习与记忆》</span><span class="rmb-tag">深入</span></a>
+                <a class="rm-book" href="#book-insearch"><span class="rmb-dot alt"></span><span class="rmb-name">《追寻记忆的痕迹》</span><span class="rmb-tag">轻松</span></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="rm-stage">
+          <a class="rm-stage-top" href="#phase-3">
+            <div class="rm-node"></div>
+            <div class="rm-stage__name">阶段三</div>
+            <div class="rm-stage__big">认知衔接</div>
+          </a>
+          <div class="rm-stem"></div>
+          <div class="rm-courses">
+            <div class="rm-course">
+              <a class="rm-course__hd" href="#phase-3"><span class="rm-course__cn">课6</span> 心智如何由脑实现</a>
+              <div class="rm-books">
+                <a class="rm-book" href="#book-gazzaniga"><span class="rmb-dot main"></span><span class="rmb-name">《认知神经科学》</span><span class="rmb-tag">主读</span></a>
+                <a class="rm-book" href="#book-ward"><span class="rmb-dot alt"></span><span class="rmb-name">《学生版指南》Ward</span><span class="rmb-tag">替代</span></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="rm-stage">
+          <a class="rm-stage-top" href="#phase-4">
+            <div class="rm-node"></div>
+            <div class="rm-stage__name">阶段四 · 自选</div>
+            <div class="rm-stage__big">选方向深入</div>
+          </a>
+          <div class="rm-stem"></div>
+          <div class="rm-courses">
+            <div class="rm-course">
+              <a class="rm-course__hd" href="#phase-4"><span class="rm-course__cn">课7</span> 脑的数学模型</a>
+              <div class="rm-books">
+                <a class="rm-book" href="#book-miller"><span class="rmb-dot main"></span><span class="rmb-name">《计算神经科学入门》</span><span class="rmb-tag">主读</span></a>
+                <a class="rm-book" href="#book-gerstner"><span class="rmb-dot alt"></span><span class="rmb-name">《神经元动力学》</span><span class="rmb-tag">替代</span></a>
+              </div>
+            </div>
+            <div class="rm-course">
+              <a class="rm-course__hd" href="#phase-4"><span class="rm-course__cn">课8</span> 脑怎么建成</a>
+              <div class="rm-books">
+                <a class="rm-book" href="#book-sanes"><span class="rmb-dot main"></span><span class="rmb-name">《神经系统的发育》</span><span class="rmb-tag">主读</span></a>
+              </div>
+            </div>
+            <div class="rm-course">
+              <a class="rm-course__hd" href="#phase-4"><span class="rm-course__cn">课9</span> 系统失灵时</a>
+              <div class="rm-books">
+                <a class="rm-book" href="#book-zigmond"><span class="rmb-dot main"></span><span class="rmb-name">《脑疾病神经生物学》</span><span class="rmb-tag">主读</span></a>
+                <a class="rm-book" href="#book-disordered"><span class="rmb-dot alt"></span><span class="rmb-name">《我们时代的神经与精神疾病》</span><span class="rmb-tag">轻松</span></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 第二屏：主选一侧 + 角色标签&备选在对面 ══ -->
+<section class="section">
+  <div class="page-container">
+    <div class="section__label"><span class="section__label-line"></span>完整书目路线</div>
+    <h2 class="section__heading">一条线读到底</h2>
+    <p class="section__sub">当前需要找的是 <b>阶段一</b> 的书。</p>
+
+    <div class="vtwrap">
+      <div class="vt-line"><div class="vt-line-fill" id="lineFill"></div></div>
+
+      <!-- 阶段一 -->
+      <div class="vt-phase is-active" id="phase-1">
+        <div class="vt-phase-hd">阶段一 · 脑的全景 <small>· 当前位置</small></div>
+        <div class="vt-course vt-course--ml is-current">
+          <div class="vt-main">
+            <div class="vt-card" id="book-bear">
+              <div class="cover"><span class="cover__fallback">探索脑</span><img src="https://covers.openlibrary.org/b/id/424325-L.jpg" alt=""></div>
+              <div>
+                <div class="vt-zh">《神经科学：探索脑》</div>
+                <div class="vt-en">Neuroscience: Exploring the Brain · 第4版</div>
+                <div class="vt-press"><b>Bear, Connors, Paradiso</b> · Jones &amp; Bartlett · 中译：科学出版社</div>
+                <div class="vt-intro">三大教材里唯一不要求生物基础，图解最佳，神经元到行为全覆盖。</div>
+                <div class="vt-who">🎓 麻省理工导论课指定，作者即主讲（<a href="https://ocw.mit.edu/courses/9-01-introduction-to-neuroscience-fall-2007/pages/syllabus/" target="_blank">MIT OCW</a>）</div>
+              </div>
+            </div>
+          </div>
+          <div class="vt-aside">
+            <div class="vt-roletag">
+              <span class="vt-rt-badge role-primary">课1 · 主读</span>
+              <span class="vt-rt-note">现在就找这本，拿到即可 /eatbook:ingest 入库开读</span>
+            </div>
+            <div class="vt-alt-wrap">
+              <div class="vt-subcard" id="book-purves">
+                <div class="cover"><span class="cover__fallback">Purves</span><img src="https://covers.openlibrary.org/b/id/1633156-L.jpg" alt=""></div>
+                <div>
+                  <span class="vt-sub-role role-secondary">备查</span>
+                  <div class="vt-sub-zh">《神经科学》Purves</div>
+                  <div class="vt-sub-en">Neuroscience · 第6版 · Dale Purves · Oxford</div>
+                  <div class="vt-sub-intro">同谱系更深一档，《探索脑》讲不透时翻它，不通读。</div>
+                </div>
+              </div>
+              <div class="vt-subcard" id="book-blumenfeld">
+                <div class="cover"><span class="cover__fallback">临床解剖</span><img src="https://covers.openlibrary.org/b/id/9355656-L.jpg" alt=""></div>
+                <div>
+                  <span class="vt-sub-role role-ref">全程工具书</span>
+                  <div class="vt-sub-zh">《临床病例神经解剖学》</div>
+                  <div class="vt-sub-en">Neuroanatomy through Clinical Cases · Blumenfeld</div>
+                  <div class="vt-sub-intro">用病例讲脑结构，读到任何脑区翻开查位置与连接。</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 阶段二 -->
+      <div class="vt-phase" id="phase-2">
+        <div class="vt-phase-hd">阶段二 · 机制纵深 <small>· 四门课《探索脑》全覆盖</small></div>
+
+        <div class="vt-course vt-course--mr">
+          <div class="vt-main">
+            <div class="vt-card" id="book-luo">
+              <div class="cover"><span class="cover__fallback">神经生物学原理</span><img src="https://covers.openlibrary.org/b/id/8964739-L.jpg" alt=""></div>
+              <div>
+                <div class="vt-zh">《神经生物学原理》</div>
+                <div class="vt-en">Principles of Neurobiology · 第2版 · 骆利群 Liqun Luo</div>
+                <div class="vt-intro">重遗传工具与神经环路的现代教材，需分子生物学基础。加州大学伯克利分校核心课指定。</div>
+              </div>
+            </div>
+          </div>
+          <div class="vt-aside">
+            <div class="vt-roletag">
+              <span class="vt-rt-badge role-deep">课2 · 深入</span>
+              <span class="vt-rt-note">本书与《探索脑》对应章节共读</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="vt-course vt-course--ml">
+          <div class="vt-main">
+            <div class="vt-card" id="book-kandel">
+              <div class="cover"><span class="cover__fallback">神经科学原理</span><img src="https://covers.openlibrary.org/b/id/56106-L.jpg" alt=""></div>
+              <div>
+                <div class="vt-zh">《神经科学原理》Kandel</div>
+                <div class="vt-en">Principles of Neural Science · 第6版 · Eric Kandel 等</div>
+                <div class="vt-press"><b>McGraw-Hill</b></div>
+                <div class="vt-intro">领域"圣经"1700 余页，查不通读，旧版有中译。斯坦福、加州大学旧金山分校传统教材。</div>
+              </div>
+            </div>
+          </div>
+          <div class="vt-aside">
+            <div class="vt-roletag">
+              <span class="vt-rt-badge role-ref">课3 · 参考</span>
+              <span class="vt-rt-note">与《探索脑》对应章节共读；领域权威巨著、1700+ 页，按需查阅不必通读</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="vt-course vt-course--mr">
+          <div class="vt-main">
+            <div class="vt-card" id="book-breedlove">
+              <div class="cover"><span class="cover__fallback">行为神经科学</span><img src="https://covers.openlibrary.org/b/id/13805425-L.jpg" alt=""></div>
+              <div>
+                <div class="vt-zh">《行为神经科学》</div>
+                <div class="vt-en">Behavioral Neuroscience · 第10版 · S. Marc Breedlove</div>
+                <div class="vt-intro">心理系视角的标准生理心理学教材，动机·情绪·节律层更展开。</div>
+              </div>
+            </div>
+          </div>
+          <div class="vt-aside">
+            <div class="vt-roletag">
+              <span class="vt-rt-badge role-deep">课4 · 深入</span>
+              <span class="vt-rt-note">本书与《探索脑》对应章节共读</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="vt-course vt-course--ml">
+          <div class="vt-main">
+            <div class="vt-card" id="book-gluck">
+              <div class="cover"><span class="cover__fallback">学习与记忆</span><img src="https://covers.openlibrary.org/b/id/2554614-L.jpg" alt=""></div>
+              <div>
+                <div class="vt-zh">《学习与记忆：从脑到行为》</div>
+                <div class="vt-en">Learning and Memory · 第4版 · Mark Gluck 等</div>
+                <div class="vt-intro">行为与脑机制双层讲，机制纵深的收官，直接解释"学习"本身。</div>
+              </div>
+            </div>
+          </div>
+          <div class="vt-aside">
+            <div class="vt-roletag">
+              <span class="vt-rt-badge role-deep">课5 · 深入</span>
+              <span class="vt-rt-note">本书与《探索脑》对应章节共读</span>
+            </div>
+            <div class="vt-alt-wrap">
+              <div class="vt-subcard" id="book-insearch">
+                <div class="cover"><span class="cover__fallback">追寻记忆</span><img src="https://covers.openlibrary.org/b/id/251275-L.jpg" alt=""></div>
+                <div>
+                  <span class="vt-sub-role role-alt">轻松读物</span>
+                  <div class="vt-sub-zh">《追寻记忆的痕迹》</div>
+                  <div class="vt-sub-en">In Search of Memory · Kandel 自传 · 有中译</div>
+                  <div class="vt-sub-intro">诺奖得主讲一生的记忆研究，睡前读，把机制接回人物与历史。</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 阶段三 -->
+      <div class="vt-phase" id="phase-3">
+        <div class="vt-phase-hd">阶段三 · 认知衔接 <small>· 本路线的落点</small></div>
+        <div class="vt-course vt-course--mr">
+          <div class="vt-main">
+            <div class="vt-card" id="book-gazzaniga">
+              <div class="cover"><span class="cover__fallback">认知神经科学</span><img src="https://covers.openlibrary.org/b/id/253143-L.jpg" alt=""></div>
+              <div>
+                <div class="vt-zh">《认知神经科学：心智的生物学》</div>
+                <div class="vt-en">Cognitive Neuroscience · 第6版 · Michael Gazzaniga 等</div>
+                <div class="vt-press"><b>W. W. Norton</b> · 旧版有中译本</div>
+                <div class="vt-intro">学科事实标准教材，作者是裂脑实验奠基人。约翰霍普金斯列为专业必修。</div>
+              </div>
+            </div>
+          </div>
+          <div class="vt-aside">
+            <div class="vt-roletag">
+              <span class="vt-rt-badge role-primary">课6 · 主读</span>
+              <span class="vt-rt-note">本路线的落点：从"脑怎么工作"到"心智如何由脑实现"</span>
+            </div>
+            <div class="vt-alt-wrap">
+              <div class="vt-subcard" id="book-ward">
+                <div class="cover"><span class="cover__fallback">学生版指南</span><img src="https://covers.openlibrary.org/b/id/2018535-L.jpg" alt=""></div>
+                <div>
+                  <span class="vt-sub-role role-alt">替代 · 更友好</span>
+                  <div class="vt-sub-zh">《学生版认知神经科学指南》</div>
+                  <div class="vt-sub-en">The Student's Guide · 第5版 · Jamie Ward</div>
+                  <div class="vt-sub-intro">更轻量友好的英系教材，主读吃力可先用它入门。</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 阶段四 -->
+      <div class="vt-phase" id="phase-4">
+        <div class="vt-phase-hd">阶段四 · 自选方向 <small>· 读完阶段二即可开始</small></div>
+
+        <div class="vt-course vt-course--ml">
+          <div class="vt-main">
+            <div class="vt-card" id="book-miller">
+              <div class="cover"><span class="cover__fallback">计算神经科学</span><img src="https://covers.openlibrary.org/b/id/8835414-L.jpg" alt=""></div>
+              <div>
+                <div class="vt-zh">《计算神经科学入门教程》</div>
+                <div class="vt-en">An Introductory Course in Computational Neuroscience · Paul Miller</div>
+                <div class="vt-press"><b>MIT Press</b> · 2018</div>
+                <div class="vt-intro">写给本科生、带编程实操，用模型重述前面学过的一切。</div>
+              </div>
+            </div>
+          </div>
+          <div class="vt-aside">
+            <div class="vt-roletag">
+              <span class="vt-rt-badge role-primary">课7 · 主读</span>
+              <span class="vt-rt-note">自选方向 · 脑的数学模型</span>
+            </div>
+            <div class="vt-alt-wrap">
+              <div class="vt-subcard" id="book-gerstner">
+                <div class="cover"><span class="cover__fallback">神经元动力学</span><img src="https://covers.openlibrary.org/b/id/13256324-L.jpg" alt=""></div>
+                <div>
+                  <span class="vt-sub-role role-alt">替代 · 更系统</span>
+                  <div class="vt-sub-zh">《神经元动力学》</div>
+                  <div class="vt-sub-en">Neuronal Dynamics · Gerstner 等 · Cambridge</div>
+                  <div class="vt-sub-intro">理论更系统，洛桑联邦理工教材，<a href="https://neuronaldynamics.epfl.ch/" target="_blank">全文免费在线</a>。</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="vt-course vt-course--mr">
+          <div class="vt-main">
+            <div class="vt-card" id="book-sanes">
+              <div class="cover"><span class="cover__fallback">神经系统的发育</span><img src="https://covers.openlibrary.org/b/id/8637662-L.jpg" alt=""></div>
+              <div>
+                <div class="vt-zh">《神经系统的发育》</div>
+                <div class="vt-en">Development of the Nervous System · 第4版 · Dan H. Sanes 等</div>
+                <div class="vt-intro">造脑与改脑是同一套分子机器，与课5 互为表里。备了 Luo 它也覆盖本课。</div>
+              </div>
+            </div>
+          </div>
+          <div class="vt-aside">
+            <div class="vt-roletag">
+              <span class="vt-rt-badge role-primary">课8 · 主读</span>
+              <span class="vt-rt-note">自选方向 · 脑怎么建成</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="vt-course vt-course--ml">
+          <div class="vt-main">
+            <div class="vt-card" id="book-zigmond">
+              <div class="cover"><span class="cover__fallback">脑疾病</span><img src="https://covers.openlibrary.org/b/id/12806742-L.jpg" alt=""></div>
+              <div>
+                <div class="vt-zh">《脑疾病神经生物学》</div>
+                <div class="vt-en">Neurobiology of Brain Disorders · 第2版 · Michael Zigmond 等</div>
+                <div class="vt-intro">阿尔茨海默、帕金森、抑郁、成瘾的机制级解释。</div>
+              </div>
+            </div>
+          </div>
+          <div class="vt-aside">
+            <div class="vt-roletag">
+              <span class="vt-rt-badge role-primary">课9 · 主读</span>
+              <span class="vt-rt-note">自选方向 · 系统失灵时</span>
+            </div>
+            <div class="vt-alt-wrap">
+              <div class="vt-subcard" id="book-disordered">
+                <div class="cover"><span class="cover__fallback">我们时代</span><img src="https://covers.openlibrary.org/b/id/14588035-L.jpg" alt=""></div>
+                <div>
+                  <span class="vt-sub-role role-alt">轻松读物</span>
+                  <div class="vt-sub-zh">《我们时代的神经与精神疾病》</div>
+                  <div class="vt-sub-en">The Disordered Mind · Eric Kandel · 有中译</div>
+                  <div class="vt-sub-intro">面向大众讲脑疾病如何照亮"健康的脑如何工作"。</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <h3 style="font-size:18px;font-weight:600;margin:36px 0 4px;">阅读进度</h3>
+    <p style="font-size:12.5px;color:var(--steel);">由 ingest / read / coread 自动更新。</p>
+    <div class="progress-wrap">
+      <div class="progress-head"><span>书</span><span>入库</span><span>翻译</span><span>深读打底</span><span>共读进度</span></div>
+      <div class="progress-row"><span class="pb">《神经科学：探索脑》第 4 版</span><span class="pc">☐</span><span class="pc">☐</span><span class="pc">☐</span><span class="pc">—</span></div>
+      <div class="progress-row"><span class="pb">《神经科学》Purves 第 6 版（备查）</span><span class="pc">☐</span><span class="pc">—</span><span class="pc">—</span><span class="pc">—</span></div>
+      <div class="progress-row"><span class="pb">《认知神经科学》第 6 版（阶段三）</span><span class="pc">☐</span><span class="pc">☐</span><span class="pc">☐</span><span class="pc">—</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 选书权衡 ══ -->
+<section class="section section--soft">
+  <div class="page-container">
+    <div class="section__label"><span class="section__label-line"></span>选书权衡 · 读者背景</div>
+    <h2 class="section__heading">为什么是这份书单</h2>
+    <p class="section__sub">写给零基础、想彻底理解脑与心智的通识读者。三个背景设定直接决定了选书。</p>
+    <div class="rationale-grid">
+      <div class="rationale-card"><div class="rc-cond">零生物基础</div><div class="rc-act">主读选唯一不预设生物课的《探索脑》；Purves 降为备查</div></div>
+      <div class="rationale-card"><div class="rc-cond">不怕数学</div><div class="rc-act">自选保留计算神经科学；零数学可跳过</div></div>
+      <div class="rationale-card"><div class="rc-cond">统计已是行家</div><div class="rc-act">路线不设统计课，相关段落快读略过</div></div>
+      <div class="rationale-card"><div class="rc-cond">英文阅读</div><div class="rc-act">优先英文原版；中译本作对照不替代</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 末屏 ══ -->
+<section class="section">
+  <div class="page-container">
+    <div class="section__label"><span class="section__label-line"></span>关于这份档案</div>
+    <h2 class="section__heading">这是怎么来的，怎么用</h2>
+    <p class="section__sub">Eatbook 是和你一起读书的 AI 伙伴，以最小摩擦的彻底理解为目标。五个技能接力，把一个领域从选书带到读穿。</p>
+    <div class="about-grid">
+      <div class="about-card">
+        <h3>五技能接力</h3>
+        <p style="font-size:13.5px;color:var(--slate);line-height:1.6;">这份档案由 <code style="color:var(--primary);font-weight:600;">/eatbook:domain</code> 生成；它先帮你把领域拆成分阶段的学习路线、配好每门课的书，再一路陪你读穿。拿到书后顺着下面五步走即可。</p>
+        <div class="skill-flow">
+          <span class="skill-step"><code>domain</code> 选书路线</span><span class="skill-arrow">→</span>
+          <span class="skill-step"><code>ingest</code> 入库翻译</span><span class="skill-arrow">→</span>
+          <span class="skill-step"><code>read</code> 深读打底</span><span class="skill-arrow">→</span>
+          <span class="skill-step"><code>coread</code> 逐章共读</span><span class="skill-arrow">→</span>
+          <span class="skill-step"><code>branch</code> 分支深研</span>
+        </div>
+      </div>
+      <div class="find-card">
+        <h3>书去哪里找</h3>
+        <p>拿到 PDF 就能 <code style="color:#d6b6f6;">/eatbook:ingest</code> 入库。下面是常用检索入口。</p>
+        <div class="find-rows">
+          <div class="find-row"><span class="k">教材</span><span class="v">Z-Library<small>影子图书馆，按书名 / ISBN 检索</small></span></div>
+          <div class="find-row"><span class="k">论文</span><span class="v">Sci-Hub<small>按 DOI 取单篇文献</small></span></div>
+          <div class="find-row"><span class="k">公开课</span><span class="v">MIT OCW · edX<small>正版免费，配套视频</small></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer__brand"><span class="footer__brand-icon">E</span>Eatbook</div>
+  <div class="footer__note">神经科学 · 领域档案 · 每门课完整书单与来源见 system.md</div>
+  <div style="font-size:13px;color:var(--stone);">方案 B · 可交互</div>
+</footer>
+
+<script>
+(function(){
+  var phases=[].slice.call(document.querySelectorAll('.vt-phase'));
+  var wrap=document.querySelector('.vtwrap');
+  var fill=document.getElementById('lineFill');
+  var lockUntil=0;
+
+  function setActive(ph){
+    if(!ph)return;
+    phases.forEach(function(p){p.classList.toggle('is-active', p===ph);});
+  }
+  function phaseOf(el){
+    return el.classList.contains('vt-phase') ? el : (el.closest ? el.closest('.vt-phase') : null);
+  }
+  function scrollToEl(el,smooth){
+    var y=el.getBoundingClientRect().top + window.pageYOffset - 18;
+    window.scrollTo({top:y, behavior: smooth ? 'smooth' : 'auto'});
+  }
+  function updateLine(){
+    if(!wrap||!fill)return;
+    var r=wrap.getBoundingClientRect();
+    var prog=(window.innerHeight*0.5 - r.top)/r.height;
+    fill.style.height=(Math.max(0,Math.min(1,prog))*100)+'%';
+  }
+
+  // 锚点点击：显式滚到目标绝对位置 + 立即高亮目标所属阶段
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){
+    a.addEventListener('click',function(e){
+      var id=a.getAttribute('href').slice(1);
+      var el=document.getElementById(id);
+      if(!el)return;
+      e.preventDefault();
+      scrollToEl(el,true);
+      if(history.replaceState)history.replaceState(null,'','#'+id);
+      var ph=phaseOf(el);
+      if(ph){setActive(ph); lockUntil=Date.now()+1000;}
+    });
+  });
+
+  // 当前阶段高亮：判定带靠视口上部，点击后短暂锁定避免被滚动途中抢走
+  var obs=new IntersectionObserver(function(entries){
+    if(Date.now()<lockUntil)return;
+    entries.forEach(function(e){ if(e.isIntersecting) setActive(e.target); });
+  },{rootMargin:'-12% 0px -80% 0px',threshold:0});
+  phases.forEach(function(p){obs.observe(p);});
+
+  window.addEventListener('scroll',updateLine,{passive:true});
+  window.addEventListener('resize',updateLine);
+  updateLine();
+
+  // 初始带 #hash 访问：用绝对定位精确跳转
+  if(location.hash){
+    var t0=document.getElementById(location.hash.slice(1));
+    if(t0)setTimeout(function(){scrollToEl(t0,false); setActive(phaseOf(t0)); updateLine();},120);
+  }
+})();
+</script>
+
+</body>
+</html>
