@@ -116,7 +116,9 @@
   .section__sub{font-size:15px;color:var(--steel);margin-bottom:var(--sp-xl);}
   .section__sub b{color:var(--primary);font-weight:600;}
 
-  /* role badges + cover */
+  /* role badges + cover
+     ⚠️ 封面 <img> 此处示例用 Open Library 外链；生成档案后必须跑 references/embed-covers.py
+        把封面内联成 base64（外链经 archive.org 跳转，国内打不开）。详见 SKILL.md「取封面」。 */
   .role-primary{background:var(--tint-lavender);color:var(--brand-purple-800);}
   .role-secondary{background:var(--tint-sky);color:#1a3c6e;}
   .role-deep{background:var(--tint-peach);color:#793400;}
@@ -416,7 +418,7 @@
         <div class="vt-course vt-course--ml is-current">
           <div class="vt-main">
             <div class="vt-card" id="book-bear">
-              <div class="cover"><span class="cover__fallback">探索脑</span><img src="https://covers.openlibrary.org/b/id/424325-L.jpg" alt=""></div>
+              <div class="cover"><span class="cover__fallback">探索脑</span><img src="https://covers.openlibrary.org/b/id/424325-L.jpg" alt="" onerror="this.remove()"></div>
               <div>
                 <div class="vt-zh">《神经科学：探索脑》</div>
                 <div class="vt-en">Neuroscience: Exploring the Brain · 第4版</div>
@@ -433,7 +435,7 @@
             </div>
             <div class="vt-alt-wrap">
               <div class="vt-subcard" id="book-purves">
-                <div class="cover"><span class="cover__fallback">Purves</span><img src="https://covers.openlibrary.org/b/id/1633156-L.jpg" alt=""></div>
+                <div class="cover"><span class="cover__fallback">Purves</span><img src="https://covers.openlibrary.org/b/id/1633156-L.jpg" alt="" onerror="this.remove()"></div>
                 <div>
                   <span class="vt-sub-role role-secondary">备查</span>
                   <div class="vt-sub-zh">《神经科学》Purves</div>
@@ -442,7 +444,7 @@
                 </div>
               </div>
               <div class="vt-subcard" id="book-blumenfeld">
-                <div class="cover"><span class="cover__fallback">临床解剖</span><img src="https://covers.openlibrary.org/b/id/9355656-L.jpg" alt=""></div>
+                <div class="cover"><span class="cover__fallback">临床解剖</span><img src="https://covers.openlibrary.org/b/id/9355656-L.jpg" alt="" onerror="this.remove()"></div>
                 <div>
                   <span class="vt-sub-role role-ref">全程工具书</span>
                   <div class="vt-sub-zh">《临床病例神经解剖学》</div>
@@ -462,7 +464,7 @@
         <div class="vt-course vt-course--mr">
           <div class="vt-main">
             <div class="vt-card" id="book-luo">
-              <div class="cover"><span class="cover__fallback">神经生物学原理</span><img src="https://covers.openlibrary.org/b/id/8964739-L.jpg" alt=""></div>
+              <div class="cover"><span class="cover__fallback">神经生物学原理</span><img src="https://covers.openlibrary.org/b/id/8964739-L.jpg" alt="" onerror="this.remove()"></div>
               <div>
                 <div class="vt-zh">《神经生物学原理》</div>
                 <div class="vt-en">Principles of Neurobiology · 第2版 · 骆利群 Liqun Luo</div>
@@ -481,7 +483,7 @@
         <div class="vt-course vt-course--ml">
           <div class="vt-main">
             <div class="vt-card" id="book-kandel">
-              <div class="cover"><span class="cover__fallback">神经科学原理</span><img src="https://covers.openlibrary.org/b/id/56106-L.jpg" alt=""></div>
+              <div class="cover"><span class="cover__fallback">神经科学原理</span><img src="https://covers.openlibrary.org/b/id/56106-L.jpg" alt="" onerror="this.remove()"></div>
               <div>
                 <div class="vt-zh">《神经科学原理》Kandel</div>
                 <div class="vt-en">Principles of Neural Science · 第6版 · Eric Kandel 等</div>
@@ -501,7 +503,7 @@
         <div class="vt-course vt-course--mr">
           <div class="vt-main">
             <div class="vt-card" id="book-breedlove">
-              <div class="cover"><span class="cover__fallback">行为神经科学</span><img src="https://covers.openlibrary.org/b/id/13805425-L.jpg" alt=""></div>
+              <div class="cover"><span class="cover__fallback">行为神经科学</span><img src="https://covers.openlibrary.org/b/id/13805425-L.jpg" alt="" onerror="this.remove()"></div>
               <div>
                 <div class="vt-zh">《行为神经科学》</div>
                 <div class="vt-en">Behavioral Neuroscience · 第10版 · S. Marc Breedlove</div>
@@ -520,7 +522,7 @@
         <div class="vt-course vt-course--ml">
           <div class="vt-main">
             <div class="vt-card" id="book-gluck">
-              <div class="cover"><span class="cover__fallback">学习与记忆</span><img src="https://covers.openlibrary.org/b/id/2554614-L.jpg" alt=""></div>
+              <div class="cover"><span class="cover__fallback">学习与记忆</span><img src="https://covers.openlibrary.org/b/id/2554614-L.jpg" alt="" onerror="this.remove()"></div>
               <div>
                 <div class="vt-zh">《学习与记忆：从脑到行为》</div>
                 <div class="vt-en">Learning and Memory · 第4版 · Mark Gluck 等</div>
@@ -535,7 +537,7 @@
             </div>
             <div class="vt-alt-wrap">
               <div class="vt-subcard" id="book-insearch">
-                <div class="cover"><span class="cover__fallback">追寻记忆</span><img src="https://covers.openlibrary.org/b/id/251275-L.jpg" alt=""></div>
+                <div class="cover"><span class="cover__fallback">追寻记忆</span><img src="https://covers.openlibrary.org/b/id/251275-L.jpg" alt="" onerror="this.remove()"></div>
                 <div>
                   <span class="vt-sub-role role-alt">轻松读物</span>
                   <div class="vt-sub-zh">《追寻记忆的痕迹》</div>
@@ -554,7 +556,7 @@
         <div class="vt-course vt-course--mr">
           <div class="vt-main">
             <div class="vt-card" id="book-gazzaniga">
-              <div class="cover"><span class="cover__fallback">认知神经科学</span><img src="https://covers.openlibrary.org/b/id/253143-L.jpg" alt=""></div>
+              <div class="cover"><span class="cover__fallback">认知神经科学</span><img src="https://covers.openlibrary.org/b/id/253143-L.jpg" alt="" onerror="this.remove()"></div>
               <div>
                 <div class="vt-zh">《认知神经科学：心智的生物学》</div>
                 <div class="vt-en">Cognitive Neuroscience · 第6版 · Michael Gazzaniga 等</div>
@@ -570,7 +572,7 @@
             </div>
             <div class="vt-alt-wrap">
               <div class="vt-subcard" id="book-ward">
-                <div class="cover"><span class="cover__fallback">学生版指南</span><img src="https://covers.openlibrary.org/b/id/2018535-L.jpg" alt=""></div>
+                <div class="cover"><span class="cover__fallback">学生版指南</span><img src="https://covers.openlibrary.org/b/id/2018535-L.jpg" alt="" onerror="this.remove()"></div>
                 <div>
                   <span class="vt-sub-role role-alt">替代 · 更友好</span>
                   <div class="vt-sub-zh">《学生版认知神经科学指南》</div>
@@ -590,7 +592,7 @@
         <div class="vt-course vt-course--ml">
           <div class="vt-main">
             <div class="vt-card" id="book-miller">
-              <div class="cover"><span class="cover__fallback">计算神经科学</span><img src="https://covers.openlibrary.org/b/id/8835414-L.jpg" alt=""></div>
+              <div class="cover"><span class="cover__fallback">计算神经科学</span><img src="https://covers.openlibrary.org/b/id/8835414-L.jpg" alt="" onerror="this.remove()"></div>
               <div>
                 <div class="vt-zh">《计算神经科学入门教程》</div>
                 <div class="vt-en">An Introductory Course in Computational Neuroscience · Paul Miller</div>
@@ -606,7 +608,7 @@
             </div>
             <div class="vt-alt-wrap">
               <div class="vt-subcard" id="book-gerstner">
-                <div class="cover"><span class="cover__fallback">神经元动力学</span><img src="https://covers.openlibrary.org/b/id/13256324-L.jpg" alt=""></div>
+                <div class="cover"><span class="cover__fallback">神经元动力学</span><img src="https://covers.openlibrary.org/b/id/13256324-L.jpg" alt="" onerror="this.remove()"></div>
                 <div>
                   <span class="vt-sub-role role-alt">替代 · 更系统</span>
                   <div class="vt-sub-zh">《神经元动力学》</div>
@@ -621,7 +623,7 @@
         <div class="vt-course vt-course--mr">
           <div class="vt-main">
             <div class="vt-card" id="book-sanes">
-              <div class="cover"><span class="cover__fallback">神经系统的发育</span><img src="https://covers.openlibrary.org/b/id/8637662-L.jpg" alt=""></div>
+              <div class="cover"><span class="cover__fallback">神经系统的发育</span><img src="https://covers.openlibrary.org/b/id/8637662-L.jpg" alt="" onerror="this.remove()"></div>
               <div>
                 <div class="vt-zh">《神经系统的发育》</div>
                 <div class="vt-en">Development of the Nervous System · 第4版 · Dan H. Sanes 等</div>
@@ -640,7 +642,7 @@
         <div class="vt-course vt-course--ml">
           <div class="vt-main">
             <div class="vt-card" id="book-zigmond">
-              <div class="cover"><span class="cover__fallback">脑疾病</span><img src="https://covers.openlibrary.org/b/id/12806742-L.jpg" alt=""></div>
+              <div class="cover"><span class="cover__fallback">脑疾病</span><img src="https://covers.openlibrary.org/b/id/12806742-L.jpg" alt="" onerror="this.remove()"></div>
               <div>
                 <div class="vt-zh">《脑疾病神经生物学》</div>
                 <div class="vt-en">Neurobiology of Brain Disorders · 第2版 · Michael Zigmond 等</div>
@@ -655,7 +657,7 @@
             </div>
             <div class="vt-alt-wrap">
               <div class="vt-subcard" id="book-disordered">
-                <div class="cover"><span class="cover__fallback">我们时代</span><img src="https://covers.openlibrary.org/b/id/14588035-L.jpg" alt=""></div>
+                <div class="cover"><span class="cover__fallback">我们时代</span><img src="https://covers.openlibrary.org/b/id/14588035-L.jpg" alt="" onerror="this.remove()"></div>
                 <div>
                   <span class="vt-sub-role role-alt">轻松读物</span>
                   <div class="vt-sub-zh">《我们时代的神经与精神疾病》</div>

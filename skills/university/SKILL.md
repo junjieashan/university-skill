@@ -137,6 +137,14 @@ allowed-tools: Read, Write, WebSearch, WebFetch, AskUserQuestion, Bash(ls *), Ba
 
 **取封面**：每本书 `curl "https://openlibrary.org/search.json?q=<书名+作者>&fields=cover_i&limit=5"`，取第一个有 `cover_i` 的，封面 URL = `https://covers.openlibrary.org/b/id/<cover_i>-L.jpg`，放进 `.cover>img`（带 `onerror="this.remove()"`，取不到时露出 `.cover__fallback` 书名色块）。
 
+**⚠️ 封面必须内联（生成完 HTML 后的强制收尾步）**：`covers.openlibrary.org` 现已对每条封面 302 跳转到 `archive.org`，该链路慢且在中国大陆被屏蔽/限速，外链封面在国内读者浏览器里会加载失败（只剩蓝色书名块）。所以**写完 00-domain.html 后，必须运行**：
+
+```bash
+python3 <本 skill>/references/embed-covers.py domains/<slug>/00-domain.html
+```
+
+它把所有封面下载并内联成 `data:image/jpeg;base64,...`，档案即自包含（读者打开零网络依赖，国内/离线/永久可看）。下载失败的封面保留外链，靠 `onerror`+fallback 优雅降级。**不跑这步 = 交付一份国内打开没有封面的档案。**
+
 **锚点 id 约定**：阶段 `phase-1..N`，书 `book-<英文slug>`；第一屏每个 `a.rm-book[href]` 必须对应第二屏书卡的 `id`，点击才跳得过去。当前阶段在路线图与时间轴都标当前（`--current` / `is-current`）。
 
 ### 文件二：`domains/<slug>/system.md`（体系详情，低频查阅）

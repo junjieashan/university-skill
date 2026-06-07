@@ -98,6 +98,22 @@ cp -r university-skill/skills/university ~/.claude/skills/   # 或 ~/.agents/ski
 
 其他认 `AGENTS.md` 的工具（Aider / Windsurf / Gemini CLI…）会自动读到仓库根的 `AGENTS.md`。
 
+## 🔄 更新
+
+skill 在持续迭代（最近一次：**封面改为生成时内联 base64**，解决国内 / 离线打不开书影的问题）。
+更新 = **按你当初的装法重跑一遍安装命令**，会用本仓库最新版覆盖旧文件：
+
+```bash
+# ① npx 装的：重跑即从本仓库拉取最新版（如提示是否覆盖，选是）
+npx skills add junjieashan/university-skill
+
+# ③ 脚本装的：重跑一键脚本
+curl -fsSL https://raw.githubusercontent.com/junjieashan/university-skill/main/install.sh | bash
+```
+
+② Claude Code 插件：在 `/plugin` 管理界面里更新该插件。
+覆盖后即生效；已生成的旧档案不受影响，想要新封面重新生成一次即可。
+
 ## 💡 用法
 
 ```
@@ -112,7 +128,7 @@ cp -r university-skill/skills/university ~/.claude/skills/   # 或 ~/.agents/ski
 university-skill/
 ├── skills/university/
 │   ├── SKILL.md            # skill 核心：流程与产出规范
-│   └── references/         # 检索协议、来源分级、产出模板
+│   └── references/         # 检索协议、来源分级、产出模板、封面内联脚本
 ├── examples/philosophy.html # 哲学范例（在线预览同款）
 ├── install.sh              # 跨平台安装脚本
 ├── AGENTS.md               # 跨工具兼容入口
